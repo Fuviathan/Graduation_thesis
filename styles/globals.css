@@ -26,8 +26,30 @@ body {
     rgb(var(--background-start-rgb));
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.thumbs .swiper-slide {
+  opacity: 0.25;
 }
+
+.thumbs .swiper-slide-thumb-active {
+  opacity: 1;
+}
+
+.down,
+.up {
+  margin-right: 5px;
+}
+
+/* .product-data {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  display: none;
+} */
+
+/* .d-block {
+  display: block;
+}
+
+.d-none {
+  display: none;
+} */
