@@ -1,5 +1,5 @@
 import FormLogin from "@/components/Auth/FormLogin";
-import Layout from "@/components/Layout/Layout";
+import Layout from "@/components/User/Layout/Layout";
 
 export default function Product() {
   return (

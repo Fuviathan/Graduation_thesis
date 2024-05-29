@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCart } from "@/state/Cart/Action";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 function covertDataToUnsigned(string) {
   return string
@@ -19,6 +20,7 @@ function covertDataToUnsigned(string) {
 }
 
 export default function FirstRow(props) {
+  const { data: session } = useSession()
   const [auth, setAuth] = useState();
   const dispatch = useDispatch();
   const router = useRouter();
@@ -57,7 +59,7 @@ export default function FirstRow(props) {
           ElectricalD
         </Link>
         <div className="relative flex flex-row items-stretch w-full col-span-3">
-          {/* <input
+          <input
             type="text"
             className="w-full px-3 py-2 border-[1px] border-x-2 border-white focus:outline-none rounded-full bg-white"
             placeholder="Tìm kiếm sản phẩm ở đây ..."
@@ -104,7 +106,7 @@ export default function FirstRow(props) {
                 <div className="bg-white">Không tìm thấy sản phẩm</div>
               )}
             </div>
-          )} */}
+          )}
           <div className="absolute top-0 bottom-0 right-0 flex px-3 py-2 align-middle border-[1px] border-x-2 hover:opacity-80 border-white bg-[#ede2d1] rounded-r-full hover:cursor-pointer">
             <MagnifyingGlassIcon className="w-6 h-6 text-center text-orange-gray" />
           </div>
@@ -116,26 +118,27 @@ export default function FirstRow(props) {
           </a>
           <div className="flex items-center hover:cursor-pointer hover:opacity-75">
             <UserIcon className="w-10 h-10 font-thin text-orange-gray" />
-            {/* {!auth ? ( */}
+            {!auth ? (
               <Link
                 href="/login"
                 className="ml-2 text-sm font-medium text-orange-gray"
               >
                 Đăng nhập<br></br>Đăng ký
               </Link>
-            {/* ) : (
+            ) : (
+              
               <div>
                 <div className="ml-2 text-sm font-medium uppercase text-orange-gray ">
                   {auth?.lastName} {auth?.firstName}
                 </div>
                 <p
                   onClick={handleLogout}
-                  className="ml-2 text-sm font-medium text-orange-gray"
+                  className="ml-2 text-sm font-medium hover:underline text-orange-gray hover:underline-offset-2"
                 >
-                  Đăng xuất
+                  Xem thông tin
                 </p>
               </div>
-            )} */}
+            )}
           </div>
           <Link
             href={"/cart"}

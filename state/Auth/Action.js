@@ -21,7 +21,7 @@ function redirect() {
 export const register = (userData) => async (dispatch) => {
   dispatch({ type: REGISTER_REQUEST });
   try {
-    const response = await axios.post(`${API_BASE_URL}/api/auth/signup`, userData);
+    const response = await axios.post(`${API_BASE_URL}api/auth/signup`, userData);
     const user = response.data;
     dispatch({ type: REGISTER_SUCCESS, payload: user });
     toast.success("Đăng ký thành công!");
@@ -35,13 +35,13 @@ export const register = (userData) => async (dispatch) => {
 export const login = (userData) => async (dispatch) => {
   dispatch({ type: LOGIN_REQUEST });
   try {
-    const response = await axios.post(`${API_BASE_URL}/api/auth/login`, userData);
+    const response = await axios.post(`${API_BASE_URL}api/auth/login`, userData);
     const user = response.data;
+    console.log(user)
     if (user) {
-      localStorage.setItem("user", JSON.stringify(user));
+      dispatch(getUser(user.accessToken))
     }
     toast.success("Đăng nhập thành công!");
-    window.location = "/product";
     dispatch({ type: LOGIN_SUCCESS, payload: user });
   } catch (error) {
     dispatch({ type: LOGIN_FAILURE, payload: error });
@@ -62,9 +62,8 @@ const getUserFailure = (error) => ({ type: GET_USER_FAILURE, payload: error });
 
 export const getUser = (jwt) => async (dispatch) => {
   dispatch(getUserRequest());
-
   try {
-    const response = await axios.get(`${API_BASE_URL}/api/auth/profile`, {
+    const response = await axios.get(`${API_BASE_URL}api/auth/profile`, {
       headers: {
         Authorization: `Bearer ${jwt}`,
       },
@@ -72,6 +71,7 @@ export const getUser = (jwt) => async (dispatch) => {
     const userInformation = response.data;
     localStorage.setItem('userInformation', JSON.stringify(userInformation))
     dispatch(getUserSuccess(userInformation));
+    window.location = "/product";
   } catch (error) {
     dispatch(getUserFailure(error.message));
     console.log(error)

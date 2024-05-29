@@ -5,11 +5,11 @@ import SecondRow from "./SecondRow";
 export default function Header() {
   let value;
   if (typeof window !== "undefined") {
-    value = JSON.parse(localStorage.getItem("user")) || null;
+    value = JSON.parse(localStorage.getItem("userInformation")) || null;
   }
   return (
     <div>
-      <FirstRow />
+      <FirstRow user={value}/>
       <SecondRow />
     </div>
   );

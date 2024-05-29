@@ -28,7 +28,7 @@ export const getProducts = () => async (dispatch) => {
   dispatch({ type: GET_PRODUCTS_REQUEST });
 
   try {
-    const { data } = await axios.get(`${API_BASE_URL}/admin/product/get-all?size=${100}`);
+    const { data } = await axios.get(`${API_BASE_URL}admin/product/get-all?size=${100}`);
     dispatch({ type: GET_PRODUCTS_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: GET_PRODUCTS_FAILURE, payload: error.message });
@@ -37,13 +37,13 @@ export const getProducts = () => async (dispatch) => {
 
 export const getProductByFilter = (req) => async (dispatch) => {
   dispatch({ type: GET_PRODUCTS_BY_FILTER_REQUEST });
-  console.log(`${API_BASE_URL}/admin/product/get-all?${req?.brand ? `brandName=${req?.brand}&` : ""
+  console.log(`${API_BASE_URL}admin/product/get-all?${req?.brand ? `brandName=${req?.brand}&` : ""
 }${req?.category ? `categoryName=${req?.category}&` : ""
 }${req?.minPrice ? `minPrice=${req?.minPrice}&` : ""
 }${req?.maxPrice ? `maxPrice=${req?.maxPrice}&` : ""}`)
   try {
     const { data } = await axios.get(
-      `${API_BASE_URL}/admin/product/get-all?${req?.brand ? `brandName=${req?.brand}&` : ""
+      `${API_BASE_URL}admin/product/get-all?${req?.brand ? `brandName=${req?.brand}&` : ""
       }${req?.category ? `categoryName=${req?.category}&` : ""
       }${req?.minPrice ? `minPrice=${req?.minPrice}&` : ""
       }${req?.maxPrice ? `maxPrice=${req?.maxPrice}&` : ""}${`size=${100}`}`,
@@ -65,22 +65,22 @@ export const getProductByColor = () => async (dispatch) => {
   }
 };
 
-export const getProductByBrand = () => async (dispatch) => {
+export const getAllBrand = () => async (dispatch) => {
   dispatch({ type: GET_ALL_BRAND_REQUEST });
 
   try {
-    const { data } = await axios.get(`${API_BASE_URL}/admin/brands/get-all?size=${100}`);
+    const { data } = await axios.get(`${API_BASE_URL}admin/brands/get-all?size=${100}`);
     dispatch({ type: GET_ALL_BRAND_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: GET_ALL_BRAND_FAILURE, payload: error.message });
   }
 };
 
-export const getProductByCategory = () => async (dispatch) => {
+export const getAllCategory = () => async (dispatch) => {
   dispatch({ type: GET_ALL_CATEGORY_REQUEST });
 
   try {
-    const { data } = await axios.get(`${API_BASE_URL}/admin/categories/get-all?size=${100}`);
+    const { data } = await axios.get(`${API_BASE_URL}admin/categories/get-all?size=${100}`);
     dispatch({ type: GET_ALL_CATEGORY_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: GET_ALL_CATEGORY_FAILURE, payload: error.message });

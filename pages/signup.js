@@ -1,5 +1,5 @@
 import FormRegister from "@/components/Auth/FormRegister";
-import Layout from "@/components/Layout/Layout";
+import Layout from "@/components/User/Layout/Layout";
 
 export default function SignUp() {
   return (

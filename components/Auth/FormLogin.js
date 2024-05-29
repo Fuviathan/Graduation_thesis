@@ -3,14 +3,14 @@ import Button from "@mui/material/Button";
 import Link from "next/link";
 import { CustomTextField } from "./CustomTextField";
 import { useRouter } from "next/router";
-import { useDispatch, useSelector } from "react-redux";
+// import { signIn } from "next-auth/react";
+import { useDispatch } from "react-redux";
 import { login } from "@/state/Auth/Action";
 import "react-toastify/dist/ReactToastify.css";
 
 const FormLogin = () => {
   const router = useRouter();
-  const dispatch = useDispatch();
-
+  const dispatch = useDispatch()
   const [formData, setFormData] = useState({
     usernameOrEmail: "",
     password: "",
@@ -32,7 +32,7 @@ const FormLogin = () => {
     const newErrors = {};
     if (formData.usernameOrEmail.trim() === "") {
       newErrors.usernameOrEmail = "Email không được để trống";
-    } 
+    }
 
     if (formData.password.trim() === "") {
       newErrors.password = "Password không được để trống";
@@ -52,8 +52,35 @@ const FormLogin = () => {
     }
 
     setError({});
-    // dispatch(login(formData));
+    dispatch(login(formData));
   };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   const newErrors = validateForm();
+
+  //   if (Object.keys(newErrors).length > 0) {
+  //     setError(newErrors);
+  //     return;
+  //   }
+  //   setError({});
+  //   console.log(formData)
+  //   const result = await signIn('credentials', {
+  //     redirect: false,
+  //     usernameOrEmail: formData.usernameOrEmail,
+  //     password: formData.password,
+  //   })
+  //   if (result.error) {
+  //     setError({ form: result.error })
+  //   } else {
+  //     router.push('/product')
+  //   }
+  // };
+
+  // const handleGoogleLogin = () => {
+  //   signIn('google')
+  // }
 
   return (
     <div className="w-full py-[5rem]">

@@ -19,8 +19,8 @@ import { purple, lime, red } from "@mui/material/colors";
 // import Color from "../product/Color";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getProductByBrand,
-  getProductByCategory,
+  getAllBrand,
+  getAllCategory,
   getProductByColor,
   getProductByFilter,
   getProducts,
@@ -53,17 +53,18 @@ const ProductFilter = () => {
 
   const dispatch = useDispatch();
   const products = useSelector((store) => store?.product?.products?.content);
-  console.log(products)
+
   // const colors = useSelector((store) => store?.product?.color);
   const brands = useSelector((store) => store?.product?.brand?.content);
+  console.log(brands)
   const categories = useSelector((store) => store?.product?.category?.content);
   useEffect(() => {
     if (!router.query.category) {
       dispatch(getProducts());
     }
-    dispatch(getProductByBrand());
+    dispatch(getAllBrand());
     // dispatch(getProductByColor());
-    dispatch(getProductByCategory());
+    dispatch(getAllCategory());
   }, []);
 
   // ================SET PERPAGE
@@ -172,7 +173,7 @@ const ProductFilter = () => {
               <div className="flex flex-row py-4">
                 <div>
                   <ul className="flex flex-wrap gap-2 mb-0 ps-0">
-                    {categories &&
+                    {brands &&
                       [...new Set(brands)].map((item, index) => {
                         return (
                           <button

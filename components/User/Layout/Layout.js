@@ -2,7 +2,7 @@ import React from "react";
 import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
 import { Provider } from "react-redux";
-import { store } from "@/components/store";
+import { store } from "@/app/store";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
