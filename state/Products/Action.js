@@ -6,9 +6,6 @@ import {
   GET_ALL_CATEGORY_FAILURE,
   GET_ALL_CATEGORY_REQUEST,
   GET_ALL_CATEGORY_SUCCESS,
-  GET_ALL_COLOR_FAILURE,
-  GET_ALL_COLOR_REQUEST,
-  GET_ALL_COLOR_SUCCESS,
   GET_PRODUCTS_BY_FILTER_FAILURE,
   GET_PRODUCTS_BY_FILTER_REQUEST,
   GET_PRODUCTS_BY_FILTER_SUCCESS,
@@ -18,9 +15,15 @@ import {
   GET_SINGLE_PRODUCTS_FAILURE,
   GET_SINGLE_PRODUCTS_REQUEST,
   GET_SINGLE_PRODUCTS_SUCCESS,
-  GET_CATEGORY_COUNT_FAILURE,
-  GET_CATEGORY_COUNT_REQUEST,
-  GET_CATEGORY_COUNT_SUCCESS,
+  GET_FAVORITE_LIST_REQUEST,
+  GET_FAVORITE_LIST_FAILURE,
+  GET_FAVORITE_LIST_SUCCESS,
+  ADD_PRODUCT_TO_FAVORITE_LIST_FAILURE,
+  ADD_PRODUCT_TO_FAVORITE_LIST_REQUEST,
+  ADD_PRODUCT_TO_FAVORITE_LIST_SUCCESS,
+  DELETE_PRODUCT_FROM_FAVORITE_LIST_FAILURE,
+  DELETE_PRODUCT_FROM_FAVORITE_LIST_REQUEST,
+  DELETE_PRODUCT_FROM_FAVORITE_LIST_SUCCESS
 } from "./ActionType";
 import { API_BASE_URL } from "@/config/apiConfig";
 
@@ -38,9 +41,9 @@ export const getProducts = () => async (dispatch) => {
 export const getProductByFilter = (req) => async (dispatch) => {
   dispatch({ type: GET_PRODUCTS_BY_FILTER_REQUEST });
   console.log(`${API_BASE_URL}admin/product/get-all?${req?.brand ? `brandName=${req?.brand}&` : ""
-}${req?.category ? `categoryName=${req?.category}&` : ""
-}${req?.minPrice ? `minPrice=${req?.minPrice}&` : ""
-}${req?.maxPrice ? `maxPrice=${req?.maxPrice}&` : ""}`)
+    }${req?.category ? `categoryName=${req?.category}&` : ""
+    }${req?.minPrice ? `minPrice=${req?.minPrice}&` : ""
+    }${req?.maxPrice ? `maxPrice=${req?.maxPrice}&` : ""}`)
   try {
     const { data } = await axios.get(
       `${API_BASE_URL}admin/product/get-all?${req?.brand ? `brandName=${req?.brand}&` : ""
@@ -51,17 +54,6 @@ export const getProductByFilter = (req) => async (dispatch) => {
     dispatch({ type: GET_PRODUCTS_BY_FILTER_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: GET_PRODUCTS_BY_FILTER_FAILURE, payload: error.message });
-  }
-};
-
-export const getProductByColor = () => async (dispatch) => {
-  dispatch({ type: GET_ALL_COLOR_REQUEST });
-
-  try {
-    const { data } = await axios.get(`${API_BASE_URL}product/color`);
-    dispatch({ type: GET_ALL_COLOR_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({ type: GET_ALL_COLOR_FAILURE, payload: error.message });
   }
 };
 
@@ -91,19 +83,38 @@ export const getSingleProduct = (id) => async (dispatch) => {
   dispatch({ type: GET_SINGLE_PRODUCTS_REQUEST });
   try {
     const { data } = await axios.get(`${API_BASE_URL}product/${id}`);
-    console.log(data);
     dispatch({ type: GET_SINGLE_PRODUCTS_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: GET_SINGLE_PRODUCTS_FAILURE, payload: error.message });
   }
 };
 
-export const getCategoryCount = () => async (dispatch) => {
-  dispatch({ type: GET_CATEGORY_COUNT_REQUEST });
+export const getFavoriteList = () => async (dispatch) => {
+  dispatch({ type: GET_FAVORITE_LIST_REQUEST })
   try {
-    const { data } = await axios.get(`${API_BASE_URL}prodcategory/count`);
-    dispatch({ type: GET_CATEGORY_COUNT_SUCCESS, payload: data });
+    const { data } = await axios.get(`${API_BASE_URL}user/favorites/get-all`)
+    dispatch({ type: GET_FAVORITE_LIST_SUCCESS, payload: data })
   } catch (error) {
-    dispatch({ type: GET_CATEGORY_COUNT_FAILURE, payload: error.message });
+    dispatch({ type: GET_FAVORITE_LIST_FAILURE, payload: error.message })
   }
-};
+}
+
+export const addProductToFavoriteList = (id) => async(dispatch) => {
+  dispatch({ type: ADD_PRODUCT_TO_FAVORITE_LIST_REQUEST })
+  try {
+    const { data } = await axios.get(`${API_BASE_URL}user/favorites/add?productId=${id}`)
+    dispatch({ type: ADD_PRODUCT_TO_FAVORITE_LIST_SUCCESS, payload: data })
+  } catch (error) {
+    dispatch({ type: ADD_PRODUCT_TO_FAVORITE_LIST_FAILURE, payload: error.message })
+  }
+}
+
+export const deleteProductFromFavoriteList = (id) => async(dispatch) => {
+  dispatch({ type: DELETE_PRODUCT_FROM_FAVORITE_LIST_REQUEST })
+  try {
+    const { data } = await axios.get(`${API_BASE_URL}user/favorites/remove?productId=${id}`)
+    dispatch({ type: DELETE_PRODUCT_FROM_FAVORITE_LIST_SUCCESS, payload: data })
+  } catch (error) {
+    dispatch({ type: DELETE_PRODUCT_FROM_FAVORITE_LIST_FAILURE, payload: error.message })
+  }
+}
