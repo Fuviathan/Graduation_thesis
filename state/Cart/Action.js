@@ -23,10 +23,10 @@ import {
 } from "./ActionType";
 import { toast } from "react-toastify";
 
-export const getCart = (id) => async (dispatch) => {
+export const getCart = () => async (dispatch) => {
   dispatch({ type: GET_CART_REQUEST });
   try {
-    const { data } = await api.get(`/user/cart/${id}`);
+    const { data } = await api.get(`user/cart`);
 
     dispatch({ type: GET_CART_SUCCESS, payload: data });
   } catch (error) {

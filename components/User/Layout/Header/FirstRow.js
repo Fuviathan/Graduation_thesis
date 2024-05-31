@@ -22,6 +22,7 @@ function covertDataToUnsigned(string) {
 export default function FirstRow(props) {
   const { data: session } = useSession()
   const [auth, setAuth] = useState();
+  const [jwtToken, setJwtToken] = useState()
   const dispatch = useDispatch();
   const router = useRouter();
   const dataPro = useSelector((store) => store?.product?.products?.content);
@@ -30,13 +31,13 @@ export default function FirstRow(props) {
   const [showList, setShowList] = useState(false);
 
   const cart = useSelector((store) => store?.cart?.cart);
-  const cartItem = useSelector((store) => store.cart?.cartItem)
+  const cartItem = useSelector((store) => store.cart?.cart?.cartItems)
   useEffect(() => {
     // Get the value from local storage if it exists
     setAuth(props.user);
-    dispatch(getCart(props?.user?.id))
+    setJwtToken(props.token)
+    dispatch(getCart(jwtToken))
   }, [cartItem]);
-
 
   function redirect() {
     window.location.href = '/'
@@ -146,11 +147,11 @@ export default function FirstRow(props) {
           >
             <ShoppingCartIcon className="w-10 h-10 font-thin text-orange-gray" />
 
-            {/* {auth && (
+            {auth && (
               <div className="font-medium text-md text-orange-gray">
-                {cart ? `${cart?.totalPrice}$` : ""}{" "}
+                {cart ? `${cart?.totalDiscountedPrice}$` : ""}{" "}
               </div>
-            )} */}
+            )}
           </Link>
         </div>
       </div>

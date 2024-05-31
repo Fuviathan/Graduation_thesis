@@ -5,7 +5,7 @@ export const API_BASE_URL = 'https://cdtn-backend-ecommerce.fly.dev/';
 // Hàm để lấy token từ localStorage
 export const getTokenFromLocalStorage = () => {
   if (typeof window !== "undefined") {
-    return localStorage.getItem("user") || "";
+    return localStorage.getItem("userToken") || "";
   }
   return "";
 };
@@ -29,7 +29,7 @@ export const apiFormData = axios.create({
 api.interceptors.request.use((config) => {
   const user = JSON.parse(getTokenFromLocalStorage());
   if (user) {
-    config.headers.Authorization = `Bearer ${user.token}`;
+    config.headers.Authorization = `Bearer ${user}`;
   }
   return config;
 });
