@@ -66,7 +66,7 @@ const ProductCard = ({ grid, item }) => {
           </div>
           {item?.discountPercent !== 0 && (
             <span className="absolute top-0 left-0 px-2 m-2 text-sm font-medium text-center text-white bg-black rounded-full">
-              {/* {item?.discountPercent}% OFF */}
+              {item?.discountPercent}% OFF
             </span>
           )}
           {/* <div
@@ -131,11 +131,11 @@ const ProductCard = ({ grid, item }) => {
               <span className={`font-bold text-slate-900 ${
                 grid === 6 ? 'text-3xl' : 'text-2xl'
               }`}>
-                {/* ${(item?.variations[0].price - (item?.variations[0].price * item?.discountPercent) / 100).toFixed(2)} */}
+                ${(item?.productSkus[0].price - (item?.productSkus[0].price * item?.discountPercent) / 100).toFixed(2)}
               </span>
               {item?.discountPercent !== 0 && (
                 <span className="ml-2 text-sm line-through text-slate-900">
-                  {/* ${item?.variations[0].price.toFixed(2)} */}
+                  ${item?.productSkus[0].price.toFixed(2)}
                 </span>
               )}
             </p>

@@ -17,13 +17,12 @@ export default function ProductDetailPage({ productData }) {
 export async function getStaticPaths() {
   try {
     // Fetch the list of product IDs from your API
-    const response = await axios.get(`${API_BASE_URL}product`);
-    const products = response.data;
+    const response = await axios.get(`${API_BASE_URL}admin/product/get-all?size=${100}`);
+    const products = response.data.content;
     // Generate paths for each product ID
     const paths = products.map((product) => ({
-      params: { productId: product._id.toString() },
+      params: { productId: product.id.toString() },
     }));
-
     return {
       paths,
       fallback: false, // Set to true if you want to enable incremental static regeneration
@@ -41,9 +40,8 @@ export async function getStaticProps({ params }) {
   const productId = params.productId;
   try {
     // Fetch product data based on the ID from your API
-    const response = await axios.get(`${API_BASE_URL}product/${productId}`);
+    const response = await axios.get(`${API_BASE_URL}admin/product/${productId}`);
     const productData = response.data;
-
     return {
       props: { productData },
     };

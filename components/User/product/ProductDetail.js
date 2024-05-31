@@ -21,6 +21,7 @@ import { addProductToCart, clearCart } from "@/state/Cart/Action";
 // import { Rating } from "@mui/material";
 
 export default function ProductDetail({ product }) {
+  console.log(product)
   const router = useRouter()
   const dispatch = useDispatch();
   const [color, setColor] = useState(null);
@@ -43,21 +44,21 @@ export default function ProductDetail({ product }) {
       ?.classList.toggle("hidden");
   };
 
-  function handleAddToCart(product) {
-    const data = {
-      cart: [
-        {
-          id: userInformation?.id,
-          productId: product?.id,
-          quantity: quantity,
-          price: product?.variations[0].price - (product?.variations[0].price * product?.discountPercent) / 100,
-          attributeVariationLv1: product?.variations[0]?.attributeVariationLv1
-        },
-      ],
-    };
-    dispatch(addProductToCart(data));
-    setTimeout(() => dispatch(clearCart()), 1000)
-  }
+  // function handleAddToCart(product) {
+  //   const data = {
+  //     cart: [
+  //       {
+  //         id: userInformation?.id,
+  //         productId: product?.id,
+  //         quantity: quantity,
+  //         price: product?.variations[0].price - (product?.variations[0].price * product?.discountPercent) / 100,
+  //         attributeVariationLv1: product?.variations[0]?.attributeVariationLv1
+  //       },
+  //     ],
+  //   };
+  //   dispatch(addProductToCart(data));
+  //   setTimeout(() => dispatch(clearCart()), 1000)
+  // }
 
   // useEffect(() => {
   //   dispatch(getSingleProduct(productId));
@@ -79,8 +80,8 @@ export default function ProductDetail({ product }) {
               {product?.title}
             </h1>
             <div className="flex pt-2 mb-2 text-xl font-semibold">
-              <span className="mr-2 text-2xl">{(product?.variations[0].price - (product?.variations[0].price * product?.discountPercent) / 100).toFixed(2)}$</span>
-              <span className="text-lg font-semibold line-through">{product?.variations[0].price.toFixed(2)}$</span>
+              {/* <span className="mr-2 text-2xl">{(product?.productSkus[0].price - (product?.productSkus[0].price * product?.discountPercent) / 100).toFixed(2)}$</span> */}
+              {/* <span className="text-lg font-semibold line-through">{product?.productSkus[0].price.toFixed(2)}$</span> */}
             </div>
             <div className="flex gap-5">
               <Rating value={5} readOnly></Rating>
@@ -92,14 +93,14 @@ export default function ProductDetail({ product }) {
             <div className="flex gap-4">
               <div className="font-semibold">Nhãn hàng:</div>
               <div className="font-semibolđ opacity-90 text-yellow-600 font-mono">
-                {product?.brand}
+                {product?.brand.name}
               </div>
             </div>
 
             <div className="flex gap-4">
               <div className="font-semibold">Danh mục:</div>
               <div className="font-semibolđ opacity-90 text-yellow-600 font-mono">
-                {product?.category}
+                {product?.category.name}
               </div>
             </div>
 
@@ -110,7 +111,7 @@ export default function ProductDetail({ product }) {
               </div>
             </div> */}
 
-            <div className="flex gap-4">
+            <div className="flex gap-4 mb-3">
               <div className="font-semibold">Số lượng tồn kho :</div>
               <div className="font-semibolđ opacity-90 text-yellow-600  font-mono">
                 {product?.totalQuantity}
@@ -123,7 +124,7 @@ export default function ProductDetail({ product }) {
             </div> */}
           </div>
           {/* =============Quantity===================== */}
-          <div className="grid col-span-3 lg:grid-cols-3 sm:grid-cols-1">
+          {/* <div className="grid col-span-3 lg:grid-cols-3 sm:grid-cols-1">
             <div className="flex ">
               <div className="font-semibold place-self-center">Số lượng:</div>
 
@@ -144,7 +145,7 @@ export default function ProductDetail({ product }) {
                 <AddIcon />
               </IconButton>
             </div>
-          </div>
+          </div> */}
           <div className="col-span-3 ">
             <div className="grid grid-flow-col col-span-2 gap-4 auto-cols-max">
               <If isTrue={userInformation}>

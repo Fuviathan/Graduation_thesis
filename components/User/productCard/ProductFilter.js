@@ -56,7 +56,7 @@ const ProductFilter = () => {
 
   // const colors = useSelector((store) => store?.product?.color);
   const brands = useSelector((store) => store?.product?.brand?.content);
-  console.log(brands)
+  console.log(products)
   const categories = useSelector((store) => store?.product?.category?.content);
   useEffect(() => {
     if (!router.query.category) {
