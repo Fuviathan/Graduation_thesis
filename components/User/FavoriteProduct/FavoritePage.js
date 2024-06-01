@@ -8,7 +8,6 @@ import Link from "next/link";
 export default function FavoritePage() {
   const dispatch = useDispatch()
   const favoriteList = useSelector((store) => store.product?.favoriteList)
-  console.log(favoriteList)
   useEffect(() => {
     dispatch(getFavoriteList())
   }, []);

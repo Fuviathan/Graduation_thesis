@@ -53,7 +53,7 @@ export default function FirstRow(props) {
 
   return (
     <div className="w-full bg-[#ede2d1]">
-      <div className="grid items-center grid-cols-7 py-4 max-w-[1320px] mx-auto">
+      <div className={`${auth ? 'grid-cols-7' : 'grid-cols-6'} grid items-center py-4 max-w-[1320px] mx-auto`}>
         <Link
           href="/"
           className="px-5 mb-0 font-sans text-3xl font-semibold tracking-wide text-orange-gray hover:cursor-pointer"
@@ -113,7 +113,7 @@ export default function FirstRow(props) {
             <MagnifyingGlassIcon className="w-6 h-6 text-center text-orange-gray" />
           </div>
         </div>
-        <div className="flex flex-row justify-between col-span-3 px-4 ml-4">
+        <div className={`${auth ? 'col-span-3' : 'col-span-2'} flex flex-row justify-between px-4 ml-4`}>
           <Link href='/favoriteProduct' className='flex items-center hover:cursor-pointer hover:opacity-75'>
             <HeartIcon className='w-10 h-10 font-thin text-orange-gray' />
             <p className='ml-2 text-sm font-medium text-orange-gray'>Sản phẩm<br></br>ưa thích</p>
