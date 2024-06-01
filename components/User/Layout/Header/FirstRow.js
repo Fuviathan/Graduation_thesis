@@ -12,6 +12,7 @@ import { getCart } from "@/state/Cart/Action";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+import { logout } from "@/state/Auth/Action";
 
 function covertDataToUnsigned(string) {
   return string
@@ -45,10 +46,7 @@ export default function FirstRow(props) {
   }
 
   function handleLogout() {
-    setAuth("");
-    localStorage.clear();
-    toast.success("Bạn đã đăng xuất");
-    setTimeout(redirect, 1000)
+    dispatch(logout())
   }
 
   return (
