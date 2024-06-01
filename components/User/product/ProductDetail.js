@@ -1,7 +1,7 @@
 import { Button, IconButton, Rating } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 // import Color from "./Color";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   AddShoppingCart,
   ExpandLess,
@@ -14,18 +14,18 @@ import {
 import { Description } from "./Description";
 import { Review } from "./Review";
 import SwiperProduct from "./SwiperProduct";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { If } from "react-haiku";
 import { addProductToCart, clearCart } from "@/state/Cart/Action";
+import { getFavoriteList, addProductToFavoriteList, deleteProductFromFavoriteList } from "@/state/Products/Action";
 // import { Rating } from "@mui/material";
 
 export default function ProductDetail({ product }) {
-  console.log(product)
   const router = useRouter()
   const dispatch = useDispatch();
-  const [color, setColor] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const favoriteList = useSelector((store) => store.product?.favoriteList)
   let userInformation
   if (typeof window !== 'undefined') {
     userInformation = localStorage.getItem('user') || ""
@@ -33,7 +33,6 @@ export default function ProductDetail({ product }) {
       userInformation = JSON.parse(userInformation)
     }
   }
-
   // ======= OPTION MENU==============
   const handleOption = (e) => {
     e.target.parentElement.querySelector(".down")?.classList.toggle("hidden");
@@ -63,6 +62,15 @@ export default function ProductDetail({ product }) {
   // useEffect(() => {
   //   dispatch(getSingleProduct(productId));
   // }, [router]);
+
+  useEffect(() => {
+    dispatch(getFavoriteList());
+  }, [favoriteList])
+  let arr = [];
+  favoriteList.map((list) => {
+    arr.push(list.id)
+  })
+  const bool = arr.includes(product.id)
 
   return (
     <div className="mx-auto mt-8 max-w-[1320px]">
@@ -218,45 +226,53 @@ export default function ProductDetail({ product }) {
           <div className="col-span-3 mt-8">
             <div className="flex flex-col ">
               <div
-                className="flex items-center border-b-2 cursor-pointer"
+                className="flex items-center cursor-pointer hover:opacity-70"
                 onClick={handleOption}
               >
-                <LocalShippingOutlined className="fs-5 me-2 " />
+                <LocalShippingOutlined className="me-2" />
                 <p className="text-medium font-semibold font-sans mr-[auto]">
                   Chính sách vận chuyển và trả hàng
                 </p>
                 <ExpandLess className="hidden down" />
                 <ExpandMore className="block up" />
               </div>
-              <p className="hidden product-data">
+              <p className="hidden mt-2 product-data">
                 Phí vận chuyển và trả hàng hoàn toàn miễn phí <br />
                 Chúng tôi sẽ vận chuyển hàng hóa trong vòng
                 <b> 5-10 ngày!</b>
               </p>
             </div>
           </div>
-
-          <div className="col-span-3 mt-4">
-            <div className="flex flex-col ">
-              <div
-                className="flex items-center border-b-2 cursor-pointer"
-                onClick={handleOption}
-              >
-                <FavoriteBorder className="fs-5 me-2 " />
-                <p className="text-medium font-semibold font-sans mr-[auto]">
-                  Thêm vào danh sách ưa thích
-                </p>
-                {/* <ExpandLess className="hidden down" />
-                <ExpandMore className="block up" /> */}
+          <If isTrue={!bool}>
+            <div className="col-span-3 mt-4">
+              <div className="flex flex-col ">
+                <div
+                  className="flex items-center cursor-pointer group"
+                  onClick={() => dispatch(addProductToFavoriteList(product.id))}
+                >
+                  <FavoriteBorder className="me-2 group-hover:text-red-400" />
+                  <p className="text-medium group-hover:text-red-400 font-semibold font-sans mr-[auto]">
+                    Thêm vào danh sách ưa thích
+                  </p>
+                </div>
               </div>
-              {/* <p className="hidden product-data">
-                Free shipping and returns available on all orders! <br />
-                We ship all US domestic orders within
-                <b> 5-10 business days!</b>
-              </p> */}
             </div>
-          </div>
-
+          </If>
+          <If isTrue={bool}>
+            <div className="col-span-3 mt-4">
+              <div className="flex flex-col ">
+                <div
+                  className="flex items-center cursor-pointer group"
+                  onClick={() => dispatch(deleteProductFromFavoriteList(product.id))}
+                >
+                  <FavoriteBorder className="text-red-400 me-2 group-hover:opacity-70" />
+                  <p className="text-medium text-red-400 group-hover:opacity-70 font-semibold font-sans mr-[auto]">
+                    Xóa khỏi danh sách ưa thích
+                  </p>
+                </div>
+              </div>
+            </div>
+          </If>
           {/* <div className="col-span-3 mt-4">
             <div className="flex flex-col ">
               <div

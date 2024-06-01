@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 import {
   GET_ALL_BRAND_FAILURE,
   GET_ALL_BRAND_REQUEST,
@@ -25,7 +26,7 @@ import {
   DELETE_PRODUCT_FROM_FAVORITE_LIST_REQUEST,
   DELETE_PRODUCT_FROM_FAVORITE_LIST_SUCCESS
 } from "./ActionType";
-import { API_BASE_URL } from "@/config/apiConfig";
+import { API_BASE_URL, api } from "@/config/apiConfig";
 
 export const getProducts = () => async (dispatch) => {
   dispatch({ type: GET_PRODUCTS_REQUEST });
@@ -92,7 +93,7 @@ export const getSingleProduct = (id) => async (dispatch) => {
 export const getFavoriteList = () => async (dispatch) => {
   dispatch({ type: GET_FAVORITE_LIST_REQUEST })
   try {
-    const { data } = await axios.get(`${API_BASE_URL}user/favorites/get-all`)
+    const { data } = await api.get(`${API_BASE_URL}user/favorites/get-all`)
     dispatch({ type: GET_FAVORITE_LIST_SUCCESS, payload: data })
   } catch (error) {
     dispatch({ type: GET_FAVORITE_LIST_FAILURE, payload: error.message })
@@ -102,18 +103,21 @@ export const getFavoriteList = () => async (dispatch) => {
 export const addProductToFavoriteList = (id) => async(dispatch) => {
   dispatch({ type: ADD_PRODUCT_TO_FAVORITE_LIST_REQUEST })
   try {
-    const { data } = await axios.get(`${API_BASE_URL}user/favorites/add?productId=${id}`)
+    const { data } = await api.get(`${API_BASE_URL}user/favorites/add?productId=${id}`)
     dispatch({ type: ADD_PRODUCT_TO_FAVORITE_LIST_SUCCESS, payload: data })
+    toast.success('Thêm thành công')
   } catch (error) {
     dispatch({ type: ADD_PRODUCT_TO_FAVORITE_LIST_FAILURE, payload: error.message })
+    toast.error(error.message)
   }
 }
 
 export const deleteProductFromFavoriteList = (id) => async(dispatch) => {
   dispatch({ type: DELETE_PRODUCT_FROM_FAVORITE_LIST_REQUEST })
   try {
-    const { data } = await axios.get(`${API_BASE_URL}user/favorites/remove?productId=${id}`)
+    const { data } = await api.get(`${API_BASE_URL}user/favorites/remove?productId=${id}`)
     dispatch({ type: DELETE_PRODUCT_FROM_FAVORITE_LIST_SUCCESS, payload: data })
+    toast.success('Xóa thành công')
   } catch (error) {
     dispatch({ type: DELETE_PRODUCT_FROM_FAVORITE_LIST_FAILURE, payload: error.message })
   }

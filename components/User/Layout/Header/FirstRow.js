@@ -4,6 +4,7 @@ import {
   HeartIcon,
   UserIcon,
   ShoppingCartIcon,
+  PowerIcon
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
@@ -36,7 +37,7 @@ export default function FirstRow(props) {
     // Get the value from local storage if it exists
     setAuth(props.user);
     setJwtToken(props.token)
-    dispatch(getCart(jwtToken))
+    dispatch(getCart())
   }, [cartItem]);
 
   function redirect() {
@@ -52,7 +53,7 @@ export default function FirstRow(props) {
 
   return (
     <div className="w-full bg-[#ede2d1]">
-      <div className="grid items-center grid-cols-6 py-4 max-w-[1320px] mx-auto">
+      <div className="grid items-center grid-cols-7 py-4 max-w-[1320px] mx-auto">
         <Link
           href="/"
           className="px-5 mb-0 font-sans text-3xl font-semibold tracking-wide text-orange-gray hover:cursor-pointer"
@@ -112,11 +113,11 @@ export default function FirstRow(props) {
             <MagnifyingGlassIcon className="w-6 h-6 text-center text-orange-gray" />
           </div>
         </div>
-        <div className="flex flex-row justify-between col-span-2 px-4 ml-8">
-          <a className='flex items-center hover:cursor-pointer hover:opacity-75'>
+        <div className="flex flex-row justify-between col-span-3 px-4 ml-4">
+          <Link href='/favoriteProduct' className='flex items-center hover:cursor-pointer hover:opacity-75'>
             <HeartIcon className='w-10 h-10 font-thin text-orange-gray' />
             <p className='ml-2 text-sm font-medium text-orange-gray'>Sản phẩm<br></br>ưa thích</p>
-          </a>
+          </Link>
           <div className="flex items-center hover:cursor-pointer hover:opacity-75">
             <UserIcon className="w-10 h-10 font-thin text-orange-gray" />
             {!auth ? (
@@ -127,7 +128,7 @@ export default function FirstRow(props) {
                 Đăng nhập<br></br>Đăng ký
               </Link>
             ) : (
-              
+
               <div>
                 <div className="ml-2 text-sm font-medium uppercase text-orange-gray ">
                   {auth?.lastName} {auth?.firstName}
@@ -153,6 +154,12 @@ export default function FirstRow(props) {
               </div>
             )}
           </Link>
+          {auth ? (
+            <button onClick={handleLogout} className="flex items-center hover:opacity-65">
+              <PowerIcon className="w-8 h-8 font-thin text-orange-gray" />
+              <div className="ml-1 text-sm font-medium text-orange-gray">Đăng xuất</div>
+            </button>
+          ) : <></>}
         </div>
       </div>
     </div>
