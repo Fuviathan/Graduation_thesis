@@ -51,9 +51,10 @@ export const login = (userData) => async (dispatch) => {
 };
 
 export const logout = () => (dispatch) => {
-  toast.error("Bạn đã đăng xuất!");
   dispatch({ type: LOGOUT, payload: null });
   localStorage.clear();
+  toast.success("Bạn đã đăng xuất!");
+  setTimeout(window.location.href = '/', 1000)
 };
 
 const getUserRequest = () => ({ type: GET_USER_REQUEST });
