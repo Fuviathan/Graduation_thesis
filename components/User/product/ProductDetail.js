@@ -1,4 +1,4 @@
-import { Button, IconButton, Rating } from "@mui/material";
+import { Button, IconButton, Rating, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 // import Color from "./Color";
 import { useEffect, useState } from "react";
@@ -22,8 +22,21 @@ import { getFavoriteList, addProductToFavoriteList, deleteProductFromFavoriteLis
 
 export default function ProductDetail({ product, reviewsList }) {
   const router = useRouter()
+  console.log(product)
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
+
+  const [selectedValues, setSelectedValues] = useState({});
+
+  // handleOnChange function to update the state when a toggle button is selected
+  const handleOnChange = (optionId, event, atribute) => {
+    setSelectedValues((prevValues) => ({
+      ...prevValues,
+      [optionId]: atribute,
+    }));
+  };
+
+
   const favoriteList = useSelector((store) => store.product?.favoriteList)
   let userInformation
   if (typeof window !== 'undefined') {
@@ -62,9 +75,7 @@ export default function ProductDetail({ product, reviewsList }) {
   //   dispatch(getSingleProduct(productId));
   // }, [router]);
 
-  useEffect(() => {
-    dispatch(getFavoriteList());
-  }, [favoriteList])
+ 
   let arr = [];
   favoriteList.map((list) => {
     arr.push(list.id)
@@ -91,8 +102,8 @@ export default function ProductDetail({ product, reviewsList }) {
               {/* <span className="text-lg font-semibold line-through">{product?.productSkus[0].price.toFixed(2)}$</span> */}
             </div>
             <div className="flex items-center gap-5">
-              <Rating value={reviewsList.averageRating} readOnly precision={0.1} size='large'></Rating>
-              <div className="font-semibold text-gray-400 ">Dựa trên {reviewsList.totalReviews} đánh giá</div>
+              <Rating value={reviewsList?.averageRating} readOnly precision={0.1} size='large'></Rating>
+              <div className="font-semibold text-gray-400 ">Dựa trên {reviewsList?.totalReviews} đánh giá</div>
             </div>
           </div>
           {/* ==============Category================ */}
@@ -154,7 +165,40 @@ export default function ProductDetail({ product, reviewsList }) {
             </div>
           </div> */}
           <div className="col-span-3 ">
-            <div className="grid grid-flow-col col-span-2 gap-4 auto-cols-max">
+            <If isTrue={product?.options}>
+              {product?.options.map((option) => (
+                <div
+                  key={option.id}
+                  className="grid grid-flow-col col-span-2 gap-4 auto-cols-max"
+                >
+                  <ToggleButtonGroup
+                    key={option.id}
+                    exclusive
+                    value={selectedValues[option.id] || null}
+                    onChange={(event, atribute) =>
+                      handleOnChange(option.id, event, atribute)
+                    }
+                    className="flex items-center justify-center mb-4"
+                    aria-label="Platform"
+                  >
+                    <div className="text-md font-semibold text-center mr-4 w-8 ">
+                      {option.name}
+                    </div>
+                    {option.optionValues.map((optionValue) => (
+                      <ToggleButton
+                        className="mr-4 border w-20 h-10 rounded-md border-gray-300"
+                        key={option.id}
+                        value={optionValue.value}
+                      >
+                        {optionValue?.value}
+                      </ToggleButton>
+                    ))}
+                  </ToggleButtonGroup>
+                </div>
+              ))}
+            </If>
+
+            <div className="grid grid-flow-col col-span-2 gap-4 auto-cols-max mt-4">
               <If isTrue={userInformation}>
                 <Button
                   className="shadow-lg bg-brown-green hover:bg-brown-green hover:bg-opacity-80"
@@ -247,7 +291,10 @@ export default function ProductDetail({ product, reviewsList }) {
               <div className="flex flex-col ">
                 <div
                   className="flex items-center cursor-pointer group"
-                  onClick={() => dispatch(addProductToFavoriteList(product.id))}
+                  onClick={() => {
+                    dispatch(addProductToFavoriteList(product.id));
+                    setTimeout(() => dispatch(getFavoriteList()), 1000);
+                  }}
                 >
                   <FavoriteBorder className="me-2 group-hover:text-red-400" />
                   <p className="text-medium group-hover:text-red-400 font-semibold font-sans mr-[auto]">
@@ -262,7 +309,10 @@ export default function ProductDetail({ product, reviewsList }) {
               <div className="flex flex-col ">
                 <div
                   className="flex items-center cursor-pointer group"
-                  onClick={() => dispatch(deleteProductFromFavoriteList(product.id))}
+                  onClick={() => {
+                    dispatch(deleteProductFromFavoriteList(product.id));
+                    setTimeout(() => dispatch(getFavoriteList()), 1000);
+                  }}
                 >
                   <FavoriteBorder className="text-red-400 me-2 group-hover:opacity-70" />
                   <p className="text-medium text-red-400 group-hover:opacity-70 font-semibold font-sans mr-[auto]">
