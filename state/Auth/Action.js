@@ -10,8 +10,20 @@ import {
   REGISTER_FAILURE,
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
+  GET_ALL_ADDRESS_FAILURE,
+  GET_ALL_ADDRESS_REQUEST,
+  GET_ALL_ADDRESS_SUCCESS,
+  UPDATE_NEW_ADDRESS_FAILURE,
+  UPDATE_NEW_ADDRESS_REQUEST,
+  UPDATE_NEW_ADDRESS_SUCCESS,
+  CREATE_NEW_ADDRESS_FAILURE, 
+  CREATE_NEW_ADDRESS_REQUEST, 
+  CREATE_NEW_ADDRESS_SUCCESS, 
+  DELETE_NEW_ADDRESS_FAILURE, 
+  DELETE_NEW_ADDRESS_REQUEST,
+  DELETE_NEW_ADDRESS_SUCCESS
 } from "./ActionType";
-import { API_BASE_URL } from "@/config/apiConfig";
+import { API_BASE_URL, api } from "@/config/apiConfig";
 import { toast } from "react-toastify";
 
 function redirect() {
@@ -76,5 +88,27 @@ export const getUser = (jwt) => async (dispatch) => {
   } catch (error) {
     dispatch(getUserFailure(error.message));
     console.log(error)
+  }
+};
+
+export const addNewAddress = (req) => async (dispatch) => {
+  dispatch({ type: CREATE_NEW_ADDRESS_REQUEST });
+  try {
+    const { data } = await api.post(`user/address/create`, req);
+    dispatch({ type: CREATE_NEW_ADDRESS_SUCCESS, payload: data });
+    toast.success("Thêm địa chỉ thành công");
+    // setTimeout(refresh, 1000);
+  } catch (e) {
+    dispatch({ type: CREATE_NEW_ADDRESS_FAILURE, payload: e });
+  }
+};
+
+export const getAllAddress = () => async (dispatch) => {
+  dispatch({ type: GET_ALL_ADDRESS_REQUEST });
+  try {
+    const { data } = await api.get(`user/address/get-all`);
+    dispatch({ type: GET_ALL_ADDRESS_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({ type: GET_ALL_ADDRESS_FAILURE, payload: error.message });
   }
 };

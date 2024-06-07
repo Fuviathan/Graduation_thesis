@@ -17,11 +17,10 @@ import SwiperProduct from "./SwiperProduct";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { If } from "react-haiku";
-import { addProductToCart, clearCart } from "@/state/Cart/Action";
 import { getFavoriteList, addProductToFavoriteList, deleteProductFromFavoriteList } from "@/state/Products/Action";
 // import { Rating } from "@mui/material";
 
-export default function ProductDetail({ product }) {
+export default function ProductDetail({ product, reviewsList }) {
   const router = useRouter()
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
@@ -91,9 +90,9 @@ export default function ProductDetail({ product }) {
               {/* <span className="mr-2 text-2xl">{(product?.productSkus[0].price - (product?.productSkus[0].price * product?.discountPercent) / 100).toFixed(2)}$</span> */}
               {/* <span className="text-lg font-semibold line-through">{product?.productSkus[0].price.toFixed(2)}$</span> */}
             </div>
-            <div className="flex gap-5">
-              <Rating value={5} readOnly></Rating>
-              <div className="font-semibold">Dựa trên 0 đánh giá</div>
+            <div className="flex items-center gap-5">
+              <Rating value={reviewsList.averageRating} readOnly precision={0.1} size='large'></Rating>
+              <div className="font-semibold text-gray-400 ">Dựa trên {reviewsList.totalReviews} đánh giá</div>
             </div>
           </div>
           {/* ==============Category================ */}
@@ -317,7 +316,7 @@ export default function ProductDetail({ product }) {
 
       {/* =====================Product Review=========================== */}
       <div className="p-6 mt-8 border border-gray-200 rounded-lg shadow-lg">
-        <Review></Review>
+        <Review reviewsList={reviewsList} />
       </div>
     </div>
   );
