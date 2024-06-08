@@ -112,3 +112,28 @@ export const getAllAddress = () => async (dispatch) => {
     dispatch({ type: GET_ALL_ADDRESS_FAILURE, payload: error.message });
   }
 };
+
+export const deleteAddress = (id) => async (dispatch) => {
+  dispatch({ type: DELETE_NEW_ADDRESS_REQUEST })
+  try {
+    const { data } = await api.delete(`user/address/delete/${id}`);
+    dispatch({ type: DELETE_NEW_ADDRESS_SUCCESS, payload: data });
+    toast.success('Xóa địa chỉ thành công')
+  } catch (error) {
+    dispatch({ type: DELETE_NEW_ADDRESS_FAILURE, payload: error.message });
+  }
+}
+
+export const updateAddress = (req) => async (dispatch) => {
+  console.log(req.id)
+  dispatch({ type: UPDATE_NEW_ADDRESS_REQUEST });
+  try {
+    const { data } = await api.put(`user/address/update/${req.id}`, req);
+    dispatch({ type: UPDATE_NEW_ADDRESS_SUCCESS, payload: data });
+    toast.success("Sửa địa chỉ thành công");  
+    // setTimeout(refresh, 1000);
+  } catch (e) {
+    dispatch({ type: UPDATE_NEW_ADDRESS_FAILURE, payload: e });
+    console.log(e)
+  }
+};
