@@ -26,7 +26,7 @@ import { toast } from "react-toastify";
 export const getCart = () => async (dispatch) => {
   dispatch({ type: GET_CART_REQUEST });
   try {
-    const { data } = await api.get(`user/cart`);
+    const { data } = await api.get(`/user/cart`);
 
     dispatch({ type: GET_CART_SUCCESS, payload: data });
   } catch (error) {
@@ -36,11 +36,9 @@ export const getCart = () => async (dispatch) => {
 
 export const addProductToCart = (req) => async (dispatch) => {
   dispatch({ type: ADD_PRODUCT_TO_CART_REQUEST });
-  const cart = req.cart[0]
-  const userID = req.cart[0].id
-  delete cart.id
+  
   try {
-    let { data } = await api.post(`/user/cart/${userID}`, cart);
+    let { data } = await api.post(`/user/cart`, req);
     dispatch({ type: ADD_PRODUCT_TO_CART_SUCCESS, payload: data });
     // dispatch({ type: ADD_PRODUCT_TO_CART_SUCCESS, payload: null });
     toast.success("Thêm sản phẩm thành công!");

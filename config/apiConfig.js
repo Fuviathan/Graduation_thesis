@@ -30,6 +30,7 @@ api.interceptors.request.use((config) => {
   const user = JSON.parse(getTokenFromLocalStorage());
   if (user) {
     config.headers.Authorization = `Bearer ${user}`;
+    console.log(user)
   }
   return config;
 });

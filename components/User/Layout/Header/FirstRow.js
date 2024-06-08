@@ -39,7 +39,7 @@ export default function FirstRow(props) {
     setAuth(props.user);
     setJwtToken(props.token)
     dispatch(getCart())
-  }, [cartItem]);
+  }, []);
 
   function redirect() {
     window.location.href = '/'

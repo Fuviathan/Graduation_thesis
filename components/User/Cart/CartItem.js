@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "@/config/apiConfig";
 import {
   removeProductFromCart,
   updateProductInCart,
@@ -6,38 +7,53 @@ import { Delete, Remove } from "@mui/icons-material";
 import AddIcon from "@mui/icons-material/Add";
 
 import { IconButton } from "@mui/material";
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 const CartItem = ({ data }) => {
-  const dispatch = useDispatch();
+  console.log(data)
+  const[product, setProduct] = useState()
+
+  const getDataDetail = async () => {
+  
+    const response = await axios.get(`${API_BASE_URL}admin/product/${data.productSkus.skuValues[0].key.productId}`);
+    setProduct(response.data)
+    console.log(response)
+  }
+  useEffect(() => {
+    getDataDetail()
+    
+  },[])
   return (
     <div className="">
       <div className="flex w-full mb-2 border rounded-lg shadow">
         <div className="flex justify-center w-2/6 p-4 max-h-[9rem] min-h-fit ">
           <img
             className="object-contain"
-            src={data?.product?.images[0]?.imageUrl}
+            src={product?.images[0]?.imageUrl}
           ></img>
         </div>
         <div className="flex flex-col w-2/6">
           <div
             className="text-black text-2xl font-semibold pt-5 text-ellipsis text-nowrap w-[20rem] overflow-hidden"
-            title={data?.product?.title}
+            title={product?.title}
           >
-            {data?.product?.title}
+            {product?.title}
           </div>
           {/* <div className="text-xl font-semibold text-gray-500 ">
             Color: Black
           </div> */}
           <div className="flex flex-row gap-5 pt-6 mt-6 text-xl font-semibold text-black">
             <div>
-              {data?.discountedPrice.toFixed(2)}$
+              {data?.productSkus?.price -
+                (data?.productSkus?.price / 100) * product?.discountPercent}
+              $
             </div>
             <div className="text-gray-500 line-through">
-              {data?.price}$
+              {data?.productSkus?.price}$
             </div>
-            <div className="text-green-500">{data?.discount}%</div>
+            <div className="text-green-500"> {product?.discountPercent}$ %</div>
           </div>
         </div>
         <div className="flex items-center gap-1 ml-auto">
@@ -52,7 +68,7 @@ const CartItem = ({ data }) => {
                 updateProductInCart({
                   id: data.id,
                   quantity: data?.quantity - 1,
-                  price: data?.price / data?.quantity
+                  price: data?.price / data?.quantity,
                 })
               );
             }}
@@ -72,7 +88,7 @@ const CartItem = ({ data }) => {
                 updateProductInCart({
                   id: data.id,
                   quantity: data?.quantity + 1,
-                  price: data?.price / data?.quantity
+                  price: data?.price / data?.quantity,
                 })
               );
             }}

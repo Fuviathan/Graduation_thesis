@@ -23,7 +23,7 @@ const PriceDetail = (props) => {
           </div>
           <div className="flex justify-between pt-3">
             <div>Giảm giá</div>
-            <div className="text-green-600">{props.cart.totalDiscount.toFixed(2)}$</div>
+            <div className="text-green-600">{props.cart.totalPrice.toFixed(2) - props.cart?.totalDiscountedPrice.toFixed(2)}$</div>
           </div>
           <div className="flex justify-between pt-3 mb-4">
             <div>Phí vận chuyển</div>

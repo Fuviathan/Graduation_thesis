@@ -9,14 +9,18 @@ const Cart = (props) => {
   const dispatch = useDispatch()
   let value;
   if (typeof window !== "undefined") {
-    value = JSON.parse(localStorage.getItem("user")) || null;
+    value = JSON.parse(localStorage.getItem("userInformation")) || null;
   }
+
   const cart = useSelector((store) => store?.cart?.cart);
+  console.log(cart)
+
   const cartItem = useSelector((store) => store?.cart?.cart?.totalItem);
-  useEffect(() => {
-    // Get the value from local storage if it exists
-    dispatch(getCart(value.id))
-  }, [cartItem]);
+  console.log(cartItem)
+  // useEffect(() => {
+  //   // Get the value from local storage if it exists
+  //   dispatch(getCart())
+  // }, [cartItem]);
 
   if (!cart || cart?.totalPrice === 0) return (
     <div className="flex flex-col items-center justify-center h-full my-4 bg-white">

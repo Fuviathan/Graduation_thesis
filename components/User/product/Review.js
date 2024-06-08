@@ -10,9 +10,9 @@ export const Review = ({ reviewsList }) => {
         <div className="mt-4 mb-4">
           <div className="text-2xl font-bold ">Đánh giá của khách hàng</div>
           <div className="flex items-center gap-2 mt-2 mb-4">
-            <Rating value={reviewsList.averageRating} size='large' readOnly precision={0.1}></Rating>
+            <Rating value={reviewsList?.averageRating} size='large' readOnly precision={0.1}></Rating>
             <div className="text-xl font-semibold text-gray-400">
-              Dựa trên {reviewsList.totalReviews} đánh giá
+              Dựa trên {reviewsList?.totalReviews} đánh giá
             </div>
           </div>
           {reviewsList?.reviewsRatingsList.map((item, index) => (

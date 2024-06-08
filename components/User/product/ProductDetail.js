@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { If } from "react-haiku";
 import { getFavoriteList, addProductToFavoriteList, deleteProductFromFavoriteList } from "@/state/Products/Action";
+import { addProductToCart, getCart } from "@/state/Cart/Action";
 import { toast } from "react-toastify";
 // import { Rating } from "@mui/material";
 
@@ -28,24 +29,61 @@ export default function ProductDetail({ product, reviewsList }) {
   const [quantity, setQuantity] = useState(1);
 
   const [selectedValues, setSelectedValues] = useState({});
+  const [choosenData, setChoosenData] = useState({});
 
   // handleOnChange function to update the state when a toggle button is selected
-  const handleOnChange = (optionId, event, atribute) => {
-    setSelectedValues((prevValues) => ({
-      ...prevValues,
-      [optionId]: atribute,
-    }));
+  const handleOnChange = (option, event, atribute) => {
+    const optionChoosen = {
+      ...selectedValues,
+      [option.name]: atribute,
+    }
+    setSelectedValues(optionChoosen);
+    handleChoosenData(optionChoosen);
   };
+
+
+  const handleChoosenData = (optionChoosen) => {
+    for (let productSku of product.productSkus) {
+        let allConditionsMet = true;
+
+        for (let skuValue of productSku.skuValues) {
+            console.log(skuValue.optionValues.id);
+            console.log(optionChoosen[skuValue.option.name]);
+
+            if (skuValue.optionValues.id !== optionChoosen[skuValue.option.name]) {
+                allConditionsMet = false;
+                console.log("false");
+                break;
+            }
+        }
+
+        if (allConditionsMet) {
+            setChoosenData(productSku);
+            console.log(productSku);
+            return; // Exit the function early since a matching productSku is found
+        }
+    }
+
+    // If no matching productSku is found
+    setChoosenData({quantity:0});
+};
+
+
+
+  console.log(selectedValues)
+  // handleAddToCart function to add the product to the cart
+  
 
 
   const favoriteList = useSelector((store) => store.product?.favoriteList)
   let userInformation
   if (typeof window !== 'undefined') {
-    userInformation = localStorage.getItem('user') || ""
+    userInformation = localStorage.getItem('userInformation') || ""
     if (userInformation) {
       userInformation = JSON.parse(userInformation)
     }
   }
+  console.log(userInformation)
   // ======= OPTION MENU==============
   const handleOption = (e) => {
     e.target.parentElement.querySelector(".down")?.classList.toggle("hidden");
@@ -56,21 +94,14 @@ export default function ProductDetail({ product, reviewsList }) {
       ?.classList.toggle("hidden");
   };
 
-  // function handleAddToCart(product) {
-  //   const data = {
-  //     cart: [
-  //       {
-  //         id: userInformation?.id,
-  //         productId: product?.id,
-  //         quantity: quantity,
-  //         price: product?.variations[0].price - (product?.variations[0].price * product?.discountPercent) / 100,
-  //         attributeVariationLv1: product?.variations[0]?.attributeVariationLv1
-  //       },
-  //     ],
-  //   };
-  //   dispatch(addProductToCart(data));
-  //   setTimeout(() => dispatch(clearCart()), 1000)
-  // }
+  function handleAddToCart(product) {
+    const data = {
+      productSkuId: choosenData?.id,
+      quantity: quantity,
+    }
+    dispatch(addProductToCart(data));
+    setTimeout(() => dispatch(getCart()), 1000)
+  }
 
   // useEffect(() => {
   //   dispatch(getSingleProduct(productId));
@@ -82,7 +113,8 @@ export default function ProductDetail({ product, reviewsList }) {
     arr.push(list.id)
   })
   const bool = arr.includes(product.id)
-
+  console.log(choosenData)
+  console.log(selectedValues)
   return (
     <div className="mx-auto mt-8 max-w-[1320px]">
       <div className="grid gap-2 p-6 bg-white border rounded-lg shadow-lg sm:grid-cols-1 lg:grid-cols-2">
@@ -133,7 +165,7 @@ export default function ProductDetail({ product, reviewsList }) {
             <div className="flex gap-4 mb-3">
               <div className="font-semibold">Số lượng tồn kho :</div>
               <div className="font-semibolđ opacity-90 text-yellow-600  font-mono">
-                {product?.totalQuantity}
+                 {choosenData?.quantity >-1 ? choosenData?.quantity : product?.totalQuantity }
               </div>
             </div>
 
@@ -175,9 +207,9 @@ export default function ProductDetail({ product, reviewsList }) {
                   <ToggleButtonGroup
                     key={option.id}
                     exclusive
-                    value={selectedValues[option.id] || null}
+                    value={selectedValues[option.name] || null}
                     onChange={(event, atribute) =>
-                      handleOnChange(option.id, event, atribute)
+                      handleOnChange(option, event, atribute)
                     }
                     className="flex items-center justify-center mb-4"
                     aria-label="Platform"
@@ -189,7 +221,8 @@ export default function ProductDetail({ product, reviewsList }) {
                       <ToggleButton
                         className="w-20 h-10 mr-4 border border-gray-300 rounded-md"
                         key={option.id}
-                        value={optionValue.value}
+                        defaultValue={optionValue.value}
+                        value={optionValue.id}
                       >
                         {optionValue?.value}
                       </ToggleButton>
