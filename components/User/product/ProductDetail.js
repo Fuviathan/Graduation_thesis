@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { If } from "react-haiku";
 import { getFavoriteList, addProductToFavoriteList, deleteProductFromFavoriteList } from "@/state/Products/Action";
+import { toast } from "react-toastify";
 // import { Rating } from "@mui/material";
 
 export default function ProductDetail({ product, reviewsList }) {
@@ -181,12 +182,12 @@ export default function ProductDetail({ product, reviewsList }) {
                     className="flex items-center justify-center mb-4"
                     aria-label="Platform"
                   >
-                    <div className="text-md font-semibold text-center mr-4 w-8 ">
+                    <div className="w-8 mr-4 font-semibold text-center text-md ">
                       {option.name}
                     </div>
                     {option.optionValues.map((optionValue) => (
                       <ToggleButton
-                        className="mr-4 border w-20 h-10 rounded-md border-gray-300"
+                        className="w-20 h-10 mr-4 border border-gray-300 rounded-md"
                         key={option.id}
                         value={optionValue.value}
                       >
@@ -198,7 +199,7 @@ export default function ProductDetail({ product, reviewsList }) {
               ))}
             </If>
 
-            <div className="grid grid-flow-col col-span-2 gap-4 auto-cols-max mt-4">
+            <div className="grid grid-flow-col col-span-2 gap-4 mt-4 auto-cols-max">
               <If isTrue={userInformation}>
                 <Button
                   className="shadow-lg bg-brown-green hover:bg-brown-green hover:bg-opacity-80"
@@ -348,6 +349,7 @@ export default function ProductDetail({ product, reviewsList }) {
               className="flex cursor-pointer"
               onClick={() => {
                 navigator.clipboard.writeText(window.location.href);
+                toast.success('Đã sao chép địa chỉ của sản phẩm')
               }}
             >
               <Share className="me-2" />
