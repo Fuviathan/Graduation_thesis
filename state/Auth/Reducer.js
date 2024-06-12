@@ -21,6 +21,9 @@ import {
   DELETE_NEW_ADDRESS_FAILURE, 
   DELETE_NEW_ADDRESS_REQUEST,
   DELETE_NEW_ADDRESS_SUCCESS,
+  FORGOT_PASSWORD_WITH_EMAIL_FAILURE,
+  FORGOT_PASSWORD_WITH_EMAIL_REQUEST,
+  FORGOT_PASSWORD_WITH_EMAIL_SUCCESS
 } from "./ActionType";
 
 const initialState = {
@@ -33,6 +36,7 @@ const initialState = {
 };
 export const authReducer = (state = initialState, action) => {
   switch (action.type) {
+    case FORGOT_PASSWORD_WITH_EMAIL_REQUEST:
     case GET_ALL_ADDRESS_REQUEST:
     case CREATE_NEW_ADDRESS_REQUEST:
     case DELETE_NEW_ADDRESS_REQUEST:
@@ -50,10 +54,12 @@ export const authReducer = (state = initialState, action) => {
     case UPDATE_NEW_ADDRESS_SUCCESS:
     case DELETE_NEW_ADDRESS_SUCCESS:
     case CREATE_NEW_ADDRESS_SUCCESS:
+    case FORGOT_PASSWORD_WITH_EMAIL_SUCCESS:
       return { ...state, isLoading: false, error: null, log: action.payload };
     case REGISTER_FAILURE:
     case LOGIN_FAILURE:
     case GET_ALL_ADDRESS_FAILURE:
+    case FORGOT_PASSWORD_WITH_EMAIL_FAILURE:
     case CREATE_NEW_ADDRESS_FAILURE:
     case UPDATE_NEW_ADDRESS_FAILURE:
     case DELETE_NEW_ADDRESS_FAILURE:
