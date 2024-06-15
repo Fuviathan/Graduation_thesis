@@ -11,12 +11,12 @@ const AddressCard = ({address}) => {
           {address?.fullName}
         </p>
         <p>
-          {address?.streetAddress}
+          {address?.address}
         </p>
         <div className="flex justify-between">
           <div>
           <p className="font-semibold">Phone Number</p>
-          <p>{address?.mobilePhone}</p>
+          <p>{address?.mobileNumber}</p>
           </div>
           <div>
           <p className="font-semibold">Email</p>

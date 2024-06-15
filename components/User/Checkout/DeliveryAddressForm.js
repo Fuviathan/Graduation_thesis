@@ -23,8 +23,8 @@ const DeliveryAddressForm = ({address, setSelected, setActiveStep}) => {
       const address = {
       fullName: data.get("firstName"),
       email: data.get("email"),
-      streetAddress: ` ${selectedTinh}, ${selectedQuan}, ${selectedPhuong}/ ${data.get("address")}`,
-      mobilePhone: data.get("phoneNumber"),
+      address: ` ${selectedTinh}, ${selectedQuan}, ${selectedPhuong}/ ${data.get("address")}`,
+      mobileNumber: data.get("phoneNumber"),
     };
     const orderData = { address };
     console.log(orderData); 
