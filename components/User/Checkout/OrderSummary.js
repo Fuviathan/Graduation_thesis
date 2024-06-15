@@ -28,8 +28,8 @@ const OrderSummary = ({address,cart}) => {
         <AddressCard address={address}></AddressCard>
       </div>
       <div>
-        <div className="lg:grid grid-cols-3 relative">
-          <div className="col-span-2 h-[50vh] overflow-x-hidden">
+        <div className="lg:grid grid-cols-3 relative ">
+          <div className="col-span-2 h-[50vh] overflow-x-hidden mt-5">
             { cart?.cartItems?.map((item) => (
               <CartItem  key={item.id} data={item}></CartItem>
             ))}

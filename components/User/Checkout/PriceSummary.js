@@ -35,7 +35,6 @@ const PriceSummary = (props) => {
   }
   const dispatch = useDispatch();
   return (
-    
     <div className="">
       <div className="items-center px-8 py-4 border rounded-lg shadow ">
         <div className="mb-4 text-3xl font-bold text-center text-gray-700">
@@ -49,7 +48,11 @@ const PriceSummary = (props) => {
           </div>
           <div className="flex justify-between pt-3">
             <div>Giảm giá</div>
-            <div className="text-green-600">{props.cart.totalPrice?.toFixed(2) - props.cart?.totalDiscountedPrice?.toFixed(2)}$</div>
+            <div className="text-green-600">
+              {props.cart.totalPrice?.toFixed(2) -
+                props.cart?.totalDiscountedPrice?.toFixed(2)}
+              $
+            </div>
           </div>
           <div className="flex justify-between pt-3 mb-4">
             <div>Phí vận chuyển</div>
@@ -58,25 +61,57 @@ const PriceSummary = (props) => {
           <hr></hr>
           <span className="text-sm">Nhập mã giảm giá</span>
           <div className="flex justify-between gap-2  ">
-            
-            <input onChange={(e)=>{setCode(e.target.value);console.log(e.target.value)}} className="border focus:outline-gray-400 px-2 rounded-2xl w-[30vh]"></input>
-            <button onClick={handleCheckCoupon} className="text-sm text-white rounded-md border px-3 bg-[#baaf9d] shadow hover:bg-[#a7967c]">Áp dụng</button>
+            <input
+              onChange={(e) => {
+                setCode(e.target.value);
+                console.log(e.target.value);
+              }}
+              className="border focus:outline-gray-400 px-2 rounded-2xl w-[30vh]"
+            ></input>
+            <button
+              onClick={handleCheckCoupon}
+              className="text-sm text-white rounded-md border px-3 bg-[#baaf9d] shadow hover:bg-[#a7967c]"
+            >
+              Áp dụng
+            </button>
           </div>
-          {coupon && <div className="flex justify-between pt-3 text-md">
-            <span>Số tiền giảm: </span>
-            <div className="">- {coupon?.discountValue}$</div>
-            </div>}
+          {coupon && (
+            <div className="flex justify-between pt-3 text-md">
+              <span>Số tiền giảm: </span>
+              <div className="">- {coupon?.discountValue}$</div>
+            </div>
+          )}
           <div className="flex justify-between pt-3">
             <div>Tổng số tiền</div>
-            <div className="text-green-600">{props.cart?.totalDiscountedPrice?.toFixed(2)< coupon?.discountValue ? 0 : coupon?.discountValue ? props.cart?.totalDiscountedPrice?.toFixed(2)-coupon?.discountValue : props.cart?.totalDiscountedPrice?.toFixed(2) }$</div>
+            <div className="text-green-600">
+              {props.cart?.totalDiscountedPrice?.toFixed(2) <
+              coupon?.discountValue
+                ? 0
+                : coupon?.discountValue
+                ? props.cart?.totalDiscountedPrice?.toFixed(2) -
+                  coupon?.discountValue
+                : props.cart?.totalDiscountedPrice?.toFixed(2)}
+              $
+            </div>
           </div>
         </div>
-        <button 
+        <hr></hr>
+
+        {/* <div className="mb-4 text-3xl font-bold text-center text-gray-700">
+          Phương thức thanh toán
+        </div> */}
+        <div className="flex justify-between items-center font-semibold  pt-3 px-4">
+          <span>Phương thức thanh toán</span>
+          <select className="border focus:outline-gray-400 px-2 rounded-2xl w-[30vh]">
+            <option value="cod">Thanh toán khi nhận hàng</option>
+            <option value="cash">Thanh toán bằng VnPay</option>
+          </select>
+        </div>
+        <hr></hr>
+        <button
           className="w-full mt-4 py-2 rounded-lg bg-[#baaf9d] shadow hover:bg-[#a7967c] text-xl font-semibold text-white"
           onClick={() => {
-            dispatch(
-              createOrder(value.id)
-            );
+            dispatch(createOrder(value.id));
           }}
         >
           Xác nhận thanh toán
