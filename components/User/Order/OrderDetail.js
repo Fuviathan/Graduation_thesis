@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import OrderItemDetail from "./OrderItemDetail";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllOrderOfUser } from "@/state/Cart/Action";
-import BasicModal from "@/components/Admin/Modal/BasicModal";
+// import BasicModal from "@/components/Admin/Modal/BasicModal";
 import { getTokenFromLocalStorage } from "@/config/apiConfig";
 
 const OrderDetail = (props) => {
@@ -20,6 +20,7 @@ const OrderDetail = (props) => {
     console.log(orders)
     return (
         <div className="grid grid-cols-5 font-sans font-semibold border-2 ">
+            
             <div className="py-2 text-lg font-bold text-center border border-gray-200">
                 Số thứ tự
             </div>
@@ -57,9 +58,9 @@ const OrderDetail = (props) => {
                     </div>
                 </>
             ))}
-            <BasicModal open={props.open} handleClose={props.handleClose}>
+            {/* <BasicModal open={props.open} handleClose={props.handleClose}>
                 <OrderItemDetail open={props.open} handleClose={props.handleClose} item={item} totalMoney={price} />
-            </BasicModal>
+            </BasicModal> */}
         </div>
     );
 }

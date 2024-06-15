@@ -67,6 +67,9 @@ export const removeProductFromCart = (productId) => async (dispatch) => {
 
 export const updateProductInCart = (req) => async (dispatch) => {
   const itemID = req.id
+  console.log(req)
+  req.price =100;
+  console.log(req)
   delete req.id
   dispatch({ type: UPDATE_PRODUCT_IN_CART_REQUEST });
   try {
@@ -74,7 +77,7 @@ export const updateProductInCart = (req) => async (dispatch) => {
     dispatch({ type: UPDATE_PRODUCT_IN_CART_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: UPDATE_PRODUCT_IN_CART_FAILURE, payload: error.message });
-    location.reload()
+    // location.reload()
   }
 };
 

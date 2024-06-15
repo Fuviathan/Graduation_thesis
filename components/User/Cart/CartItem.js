@@ -13,11 +13,12 @@ import { useDispatch } from "react-redux";
 
 const CartItem = ({ data }) => {
   console.log(data)
+  const dispatch = useDispatch();
   const[product, setProduct] = useState()
 
   const getDataDetail = async () => {
   
-    const response = await axios.get(`${API_BASE_URL}admin/product/${data.productSkus.skuValues[0].key.productId}`);
+    const response = await axios.get(`${API_BASE_URL}admin/product/${data?.productSkus?.skuValues[0]?.key?.productId}`);
     setProduct(response.data)
     console.log(response)
   }
@@ -41,9 +42,7 @@ const CartItem = ({ data }) => {
           >
             {product?.title}
           </div>
-          {/* <div className="text-xl font-semibold text-gray-500 ">
-            Color: Black
-          </div> */}
+          {data?.productSkus?.skuValues.map((item) => (<div className="flex gap-2 text-xl font-normal" key={item.id}> <div>{item?.key?.option.name}</div>:<div>{item?.optionValues?.value}</div></div>))}
           <div className="flex flex-row gap-5 pt-6 mt-6 text-xl font-semibold text-black">
             <div>
               {data?.productSkus?.price -

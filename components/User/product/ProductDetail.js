@@ -103,9 +103,9 @@ export default function ProductDetail({ product, reviewsList }) {
     setTimeout(() => dispatch(getCart()), 1000)
   }
 
-  // useEffect(() => {
-  //   dispatch(getSingleProduct(productId));
-  // }, [router]);
+  useEffect(() => {
+    dispatch(getFavoriteList());
+  }, []);
 
  
   let arr = [];
