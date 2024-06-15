@@ -16,7 +16,7 @@ export const Review = ({ reviewsList }) => {
             </div>
           </div>
           {reviewsList?.reviewsRatingsList.map((item, index) => (
-            <div className="flex flex-col p-4 border border-gray-300 rounded-lg">
+            <div key={index} className="flex flex-col p-4 border border-gray-300 rounded-lg">
               <div className="flex items-center">
                 <UserCircleIcon className="w-8 h-8 mr-1 opacity-60" />
                 <div className="mr-3 text-lg font-semibold opacity-60">{item.user.userName}</div>

@@ -41,10 +41,6 @@ export const getProducts = () => async (dispatch) => {
 
 export const getProductByFilter = (req) => async (dispatch) => {
   dispatch({ type: GET_PRODUCTS_BY_FILTER_REQUEST });
-  console.log(`${API_BASE_URL}admin/product/get-all?${req?.brand ? `brandName=${req?.brand}&` : ""
-    }${req?.category ? `categoryName=${req?.category}&` : ""
-    }${req?.minPrice ? `minPrice=${req?.minPrice}&` : ""
-    }${req?.maxPrice ? `maxPrice=${req?.maxPrice}&` : ""}`)
   try {
     const { data } = await axios.get(
       `${API_BASE_URL}admin/product/get-all?${req?.brand ? `brandName=${req?.brand}&` : ""

@@ -7,8 +7,11 @@ import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { login } from "@/state/Auth/Action";
 import "react-toastify/dist/ReactToastify.css";
+import BasicModal from "../Modal/BasicModal";
+import ForgotPasswordModal from "./ForgotPasswordModal";
 
 const FormLogin = () => {
+  const [open, setOpen] = useState(false)
   const router = useRouter();
   const dispatch = useDispatch()
   const [formData, setFormData] = useState({
@@ -54,6 +57,7 @@ const FormLogin = () => {
     setError({});
     dispatch(login(formData));
   };
+
 
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
@@ -111,11 +115,9 @@ const FormLogin = () => {
             error={Boolean(error.password)}
             helperText={error.password}
           />
-          <Link href={"#"}>
-            <p className="text-base text-orange-gray hover:opacity-80">
-              Quên mật khẩu?
-            </p>
-          </Link>
+          <div onClick={() => setOpen(true)} className="text-base hover:cursor-pointer text-orange-gray hover:opacity-80">
+            Quên mật khẩu?
+          </div>
           <div className="flex justify-center gap-5 mt-4 ">
             <Button
               className="text-base font-semibold bg-light-brown text-orange-gray rounded-2xl hover:bg-light-brown hover:bg-opacity-80"
@@ -143,6 +145,9 @@ const FormLogin = () => {
           </div>
         </form>
       </div>
+      <BasicModal open={open} onClose={() => setOpen(false)}>
+        <ForgotPasswordModal open={open} onClose={() => setOpen(false)}/>          
+      </BasicModal>
     </div>
   );
 };

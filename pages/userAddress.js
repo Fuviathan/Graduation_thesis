@@ -5,7 +5,7 @@ import Link from 'next/link';
 import BasicModal from '@/components/Modal/BasicModal';
 import CreateAddressModal from '@/components/User/Address/CreateAddressModal';
 
-export default function userAddress() {
+export default function UserAddress() {
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);

@@ -16,12 +16,15 @@ import {
   UPDATE_NEW_ADDRESS_FAILURE,
   UPDATE_NEW_ADDRESS_REQUEST,
   UPDATE_NEW_ADDRESS_SUCCESS,
-  CREATE_NEW_ADDRESS_FAILURE, 
-  CREATE_NEW_ADDRESS_REQUEST, 
-  CREATE_NEW_ADDRESS_SUCCESS, 
-  DELETE_NEW_ADDRESS_FAILURE, 
+  CREATE_NEW_ADDRESS_FAILURE,
+  CREATE_NEW_ADDRESS_REQUEST,
+  CREATE_NEW_ADDRESS_SUCCESS,
+  DELETE_NEW_ADDRESS_FAILURE,
   DELETE_NEW_ADDRESS_REQUEST,
-  DELETE_NEW_ADDRESS_SUCCESS
+  DELETE_NEW_ADDRESS_SUCCESS,
+  FORGOT_PASSWORD_WITH_EMAIL_FAILURE,
+  FORGOT_PASSWORD_WITH_EMAIL_REQUEST,
+  FORGOT_PASSWORD_WITH_EMAIL_SUCCESS
 } from "./ActionType";
 import { API_BASE_URL, api } from "@/config/apiConfig";
 import { toast } from "react-toastify";
@@ -125,15 +128,26 @@ export const deleteAddress = (id) => async (dispatch) => {
 }
 
 export const updateAddress = (req) => async (dispatch) => {
-  console.log(req.id)
   dispatch({ type: UPDATE_NEW_ADDRESS_REQUEST });
   try {
     const { data } = await api.put(`user/address/update/${req.id}`, req);
     dispatch({ type: UPDATE_NEW_ADDRESS_SUCCESS, payload: data });
-    toast.success("Sửa địa chỉ thành công");  
+    toast.success("Sửa địa chỉ thành công");
     // setTimeout(refresh, 1000);
   } catch (e) {
     dispatch({ type: UPDATE_NEW_ADDRESS_FAILURE, payload: e });
     console.log(e)
   }
 };
+
+export const forgotPassword = (req) => async (dispatch) => {
+  dispatch({ type: FORGOT_PASSWORD_WITH_EMAIL_REQUEST })
+  try {
+    const { data } = await axios.post(`${API_BASE_URL}api/auth/forgot-password?email=${req}`);
+    dispatch({ type: FORGOT_PASSWORD_WITH_EMAIL_SUCCESS, payload: data });
+    toast.success("Mật khẩu mới đã được gửi đến email của bạn!");
+  } catch (error) {
+    dispatch({ type: FORGOT_PASSWORD_WITH_EMAIL_FAILURE, payload: error });
+    toast.error(error?.response?.data.message);
+  }
+}
