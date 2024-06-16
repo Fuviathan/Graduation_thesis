@@ -36,7 +36,7 @@ const OrderSummary = ({address,cart}) => {
           </div>
           <div className="px-5 sticky top-0 h-[60vh] mt-5 lg:mt-0 ">
             <div className="mt-5">
-            <PriceSummary className=""  cart={cart} onOpen={{}}/>
+            <PriceSummary className="" address={address}  cart={cart} onOpen={{}}/>
             </div>
           </div>
         </div>

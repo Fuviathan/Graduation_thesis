@@ -36,7 +36,7 @@ const Cart = (props) => {
     <div className="h-full my-4">
       <div className="flex justify-between mx-auto max-w-[1320px]">
         <div className="w-4/6 mr-8">
-          {cart?.cartItems.map((item) => (
+          {cart?.cartItems?.map((item) => (
             <CartItem key={item.id} data={item}></CartItem>
           ))}
         </div>

@@ -13,12 +13,12 @@ import {
   UPDATE_PRODUCT_IN_CART_FAILURE,
   UPDATE_PRODUCT_IN_CART_REQUEST,
   UPDATE_PRODUCT_IN_CART_SUCCESS,
-  CREATE_ORDER_FAILURE,
-  CREATE_ORDER_REQUEST,
-  CREATE_ORDER_SUCCESS,
-  GET_ALL_ORDERS_FAILURE,
-  GET_ALL_ORDERS_REQUEST,
-  GET_ALL_ORDERS_SUCCESS,
+  // CREATE_ORDER_FAILURE,
+  // CREATE_ORDER_REQUEST,
+  // CREATE_ORDER_SUCCESS,
+  // GET_ALL_ORDERS_FAILURE,
+  // GET_ALL_ORDERS_REQUEST,
+  // GET_ALL_ORDERS_SUCCESS,
   CLEAR_PRODUCT_ITEM_CART_REQUEST
 } from "./ActionType";
 import { toast } from "react-toastify";
@@ -85,25 +85,25 @@ function redirect() {
   window.location.href = '/'
 }
 
-export const createOrder = (userID) => async (dispatch) => {
-  dispatch({ type: CREATE_ORDER_REQUEST });
-  console.log(userID)
-  try {
-    const { data } = await api.put(`/user/orders/${userID}`);
-    dispatch({ type: CREATE_ORDER_SUCCESS, payload: data });
-    toast.success("Tạo đơn hàng thành công!");
-    setTimeout(redirect, 1000)
-  } catch (error) {
-    dispatch({ type: CREATE_ORDER_FAILURE, payload: error.message });
-  }
-};
+// export const createOrder = (userID) => async (dispatch) => {
+//   dispatch({ type: CREATE_ORDER_REQUEST });
+//   console.log(userID)
+//   try {
+//     const { data } = await api.put(`/user/orders/${userID}`);
+//     dispatch({ type: CREATE_ORDER_SUCCESS, payload: data });
+//     toast.success("Tạo đơn hàng thành công!");
+//     setTimeout(redirect, 1000)
+//   } catch (error) {
+//     dispatch({ type: CREATE_ORDER_FAILURE, payload: error.message });
+//   }
+// };
 
-export const getAllOrderOfUser = (userID) => async (dispatch) => {
-  dispatch({ type: GET_ALL_ORDERS_REQUEST });
-  try {
-    const { data } = await api.get(`/user/orders/history/${userID}`);
-    dispatch({ type: GET_ALL_ORDERS_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({ type: GET_ALL_ORDERS_FAILURE, payload: error.message });
-  }
-};
+// export const getAllOrderOfUser = (userID) => async (dispatch) => {
+//   dispatch({ type: GET_ALL_ORDERS_REQUEST });
+//   try {
+//     const { data } = await api.get(`/user/orders/history/${userID}`);
+//     dispatch({ type: GET_ALL_ORDERS_SUCCESS, payload: data });
+//   } catch (error) {
+//     dispatch({ type: GET_ALL_ORDERS_FAILURE, payload: error.message });
+//   }
+// };
