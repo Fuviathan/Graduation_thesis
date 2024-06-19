@@ -1,28 +1,37 @@
 import { Grid } from "@mui/material";
-import React, { useEffect } from "react";
-// import OrderCard from "./OrderCard";
-// import OrderDetails from "./OrderDetails";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import { getOrderHistory } from "../../../State/Order/Action";
+import OrderCard from "./OrderCard";
+import { getAllOrderOfUser } from "@/state/Order/Action";
 
 const orderStatus = [
-  { lable: "On The Way", value: "on_the_way" },
-  { lable: "Delivered", value: "delivered" },
-  { lable: "Cancelled", value: "cancelled" },
-  { lable: "Returned", value: "returned" },
+  { label: "Chờ xử lý", value: "PENDING" },
+  { label: "Đã đăt hàng", value: "PLACED" },
+  { label: "Đã xác nhận", value: "CONFIRMED" },
+  { label: "Đang vận chuyển", value: "SHIPPED" },
+  { label: "Đã giao hàng", value: "DELIVERED" },
+  { label: "Hủy", value: "CANCELLED" },
+  { label: "Trả hàng", value: "RETURNED" },
 ];
 
 const Order = () => {
   const dispatch = useDispatch();
-  // const jwt = localStorage.getItem("userToken");
-  // const { auth, order } = useSelector((store) => store);
-  const order = {}
-  const auth = {}
-  // useEffect(() => {
-  //   if (jwt) {
-  //     // dispatch(getOrderHistory(jwt));
-  //   }
-  // }, [auth.jwt, dispatch, jwt]);
+  const [filters, setFilters] = useState([]);
+  const order = useSelector((store) => store?.order?.orders);
+
+  const handleFilterChange = (value) => {
+    setFilters((prevFilters) =>
+      prevFilters.includes(value)
+        ? prevFilters.filter((filter) => filter !== value)
+        : [...prevFilters, value]
+    );
+  };
+  console.log(filters);
+
+  useEffect(() => {
+    dispatch(getAllOrderOfUser(filters));
+  }, [filters]);
+
   return (
     <div className="px-5 lg:p-20">
       <Grid container sx={{ justifyContent: "space-between" }}>
@@ -31,30 +40,31 @@ const Order = () => {
             <h1 className="font-bold text-lg">Filters</h1>
 
             <div className="space-y-4 mt-10">
-              <h1 className="font-semibold">ORDER STATUS</h1>
-              {orderStatus.map((option,index) => (
+              <h1 className="font-semibold">Trạng thái đơn hàng</h1>
+              {orderStatus.map((option, index) => (
                 <div key={index} className="flex items-center">
                   <input
-                    defaultValue={option.value}
+                    value={option.value}
                     type="checkbox"
-                    className="h-4 w-4 border-gray-300 text-indio-600 focus:ring-indigo-500"
+                    className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    onChange={() => handleFilterChange(option.value)}
                   />
                   <label
                     className="ml-3 text-sm text-gray-600"
                     htmlFor={option.value}
                   >
-                    {option.lable}
+                    {option.label}
                   </label>
                 </div>
               ))}
             </div>
           </div>
         </Grid>
-        {/* <Grid className="space-y-5" item xs={9}>
-          {order?.orders?.map((item) => (
-            <OrderCard data={item}></OrderCard>
+        <Grid className="space-y-5" item xs={9}>
+          {order?.map((item) => (
+            <OrderCard key={item.id} data={item} />
           ))}
-        </Grid> */}
+        </Grid>
       </Grid>
     </div>
   );

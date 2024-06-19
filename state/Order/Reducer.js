@@ -1,5 +1,4 @@
 import {
-  
   CREATE_ORDER_FAILURE,
   CREATE_ORDER_REQUEST,
   CREATE_ORDER_SUCCESS,
@@ -9,10 +8,12 @@ import {
   CREATE_ORDER_WITH_COD,
   CREATE_ORDER_WITH_COD_FAILURE,
   CREATE_ORDER_WITH_COD_SUCCESS,
+  GET_ORDER_BY_ID_REQUEST,
+  GET_ORDER_BY_ID_SUCCESS,
   GET_ALL_ORDERS_FAILURE,
   GET_ALL_ORDERS_REQUEST,
   GET_ALL_ORDERS_SUCCESS,
-  
+  GET_ORDER_BY_ID_FAILURE,
 } from "./ActionType";
 
 const initialState = {
@@ -20,15 +21,17 @@ const initialState = {
   orderCod: null,
   orderCash: null,
   orders: [],
+  orderData: null,
   loading: false,
   error: null,
 };
 export const orderReducer = (state = initialState, action) => {
-  switch (action.type){
+  switch (action.type) {
     case CREATE_ORDER_REQUEST:
     case CREATE_ORDER_WITH_COD:
     case CREATE_ORDER_WITH_CASH:
     case GET_ALL_ORDERS_REQUEST:
+    case GET_ORDER_BY_ID_REQUEST:
       return {
         ...state,
         loading: true,
@@ -40,6 +43,13 @@ export const orderReducer = (state = initialState, action) => {
         loading: false,
         error: null,
         order: action.payload,
+      };
+    case GET_ORDER_BY_ID_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        orderData: action.payload,
       };
     case CREATE_ORDER_WITH_COD_SUCCESS:
       return {
@@ -66,10 +76,9 @@ export const orderReducer = (state = initialState, action) => {
     case CREATE_ORDER_WITH_COD_FAILURE:
     case CREATE_ORDER_WITH_CASH_FAILURE:
     case GET_ALL_ORDERS_FAILURE:
+    case GET_ORDER_BY_ID_FAILURE:
       return { ...state, loading: false, error: action.payload };
     default:
       return state;
   }
-}
-
-
+};

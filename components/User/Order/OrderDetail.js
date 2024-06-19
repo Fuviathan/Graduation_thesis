@@ -1,67 +1,114 @@
-import React, { useEffect, useState } from "react";
-import OrderItemDetail from "./OrderItemDetail";
+import React, { useEffect } from "react";
+import AddressCard from "../Checkout/AddressCard";
+import OrderTracker from "./OrderTracker";
+import { Box, Grid } from "@mui/material";
+import { deepPurple } from "@mui/material/colors";
+import { Star, StarBorder, Start } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllOrderOfUser } from "@/state/Cart/Action";
-// import BasicModal from "@/components/Admin/Modal/BasicModal";
-import { getTokenFromLocalStorage } from "@/config/apiConfig";
+import { getOrderById } from "@/state/Order/Action";
 
-const OrderDetail = (props) => {
-    const [item, setOrder] = useState()
-    const [price, setPrice] = useState()
-    let value = getTokenFromLocalStorage()
-    if (value) (
-        value = JSON.parse(value)
-    )
-    const dispatch = useDispatch()
-    useEffect(() => {
-        dispatch(getAllOrderOfUser(value.id))
-    }, []);
-    const orders = useSelector((store) => store?.cart?.orders)
-    console.log(orders)
-    return (
-        <div className="grid grid-cols-5 font-sans font-semibold border-2 ">
-            
-            <div className="py-2 text-lg font-bold text-center border border-gray-200">
-                Số thứ tự
-            </div>
-            <div className="py-2 text-lg font-bold text-center border border-gray-200">
-                Người nhận hàng
-            </div>
-            <div className="py-2 text-lg font-bold text-center border border-gray-200">
-                Tổng số tiền
-            </div>
-            <div className="py-2 text-lg font-bold text-center border border-gray-200">
-                Trạng thái
-            </div>
-            <div className="py-2 text-center border border-gray-200">
+const OrderDetails = ({ orderId }) => {
+  const dispatch = useDispatch();
+  const order = useSelector((store) => store.order.orderData);
 
-            </div>
-            {orders?.map((item, index) => (
-                <>
-                    <div className="py-2 text-center border border-gray-200">
-                        {index + 1}
+  console.log(order);
+  useEffect(() => {
+    dispatch(getOrderById(parseInt(orderId)));
+  }, [orderId]);
+
+  const checkStatusOrder = (status) => {
+    switch (status) {
+      case "PENDING":
+        return 1;
+      case "PLACED":
+        return 2;
+      case "CONFIRMED":
+        return 3;
+      case "SHIPPED":
+        return 4;
+      case "DELIVERED":
+        return 5;
+      case "DELIVERY":
+        return 6;
+      case "CANCELLED":
+        return 7;
+      case "RETURNED":
+        return 8;
+      default:
+        return 1;
+    }
+  };
+  return (
+    <div className="px-5 lg:px-20">
+      <div>
+        <h1 className="font-bold text-lg py-10">Delivery Address</h1>
+        <AddressCard address={order?.address}></AddressCard>
+      </div>
+
+      <div className="py-20">
+        <OrderTracker
+          activeStep={checkStatusOrder(order?.orderStatus)}
+        ></OrderTracker>
+      </div>
+
+      <Grid className="space-y-5" container>
+        {order?.orderItems?.map((item) => (
+          <Grid
+            key={item.id}
+            item
+            container
+            className="shadow-xl rounded-md p-5 border "
+            sx={{ alignItems: "center", justifyContent: "space-between" }}
+          >
+            <Grid item xs={6}>
+              <div className="flex items-center space-x-4">
+                <img
+                  className="w-[5rem] h-[5rem] object-cover object-top"
+                  src={item?.images[0]?.imageUrl}
+                  alt=""
+                />
+                <div className="space-y-2 ml-5">
+                  <p className="font-semibold">{item?.title}</p>
+                  <p className="space-x-5 opacity-50 text-xs font-semibold">
+                    {/* <span>Color: {item.product.color}</span> */}
+                    {/* <span>Memory: {item.memory}</span> */}
+                    <div>
+                      {item?.productSkus?.skuValues.map((item) => (
+                        <span className="flex gap-2" key={item.id}>
+                          <div>{item?.key?.option.name}</div>:
+                          <div>{item?.optionValues?.value}</div>
+                        </span>
+                      ))}
                     </div>
-                    <div className="py-2 text-center border border-gray-200">
-                        {item?.user.lastName} {item?.user.firstName}
-                    </div>
-                    <div className="py-2 text-center border border-gray-200">
-                        {item.totalDiscountedPrice.toFixed(2)}$
-                    </div>
-                    <div className="py-2 text-center border border-gray-200">
-                        {item.orderStatus}
-                    </div>
-                    <div
-                        className="py-2 text-center border border-gray-200 hover:cursor-pointer hover:underline"
-                        onClick={() => { props.handleOpen(); setOrder(item.orderItems); setPrice(item.totalDiscountedPrice.toFixed(2)) }}
-                    >
-                        Xem chi tiết đơn hàng
-                    </div>
-                </>
-            ))}
-            {/* <BasicModal open={props.open} handleClose={props.handleClose}>
-                <OrderItemDetail open={props.open} handleClose={props.handleClose} item={item} totalMoney={price} />
-            </BasicModal> */}
-        </div>
-    );
-}
-export default OrderDetail;
+                    <span>Quantity: {item.quantity}</span>
+                  </p>
+                  {/* <p>Seller: {item.product.brand}</p> */}
+                  <p className="space-x-5">
+                    <span className="text-green-500">
+                      {item.discountedPrice}$
+                    </span>
+                    <span className="text-red-500 line-through">
+                      {item.price}$
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </Grid>
+
+            <Grid item>
+              <Box sx={{ color: deepPurple[500] }}>
+                <StarBorder
+                  className="px-2 text-5xl"
+                  sx={{ fontSize: "2rem" }}
+                ></StarBorder>
+                <span>Rate & Review Product</span>
+              </Box>
+            </Grid>
+          </Grid>
+        ))}
+      </Grid>
+    </div>
+  );
+};
+
+export default OrderDetails;

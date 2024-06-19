@@ -9,28 +9,28 @@ import { green } from "@mui/material/colors";
 import LocationSelector from "./LocationSelector";
 import { set } from "react-hook-form";
 
-const DeliveryAddressForm = ({address, setSelected, setActiveStep}) => {
+const DeliveryAddressForm = ({ address, setSelected, setActiveStep }) => {
   const dispatch = useDispatch();
-  const [selectedTinh, setSelectedTinh] = useState('');
-  const [selectedQuan, setSelectedQuan] = useState('');
-  const [selectedPhuong, setSelectedPhuong] = useState('');
-  // const navigate = useNavigate();
+  const [selectedTinh, setSelectedTinh] = useState("");
+  const [selectedQuan, setSelectedQuan] = useState("");
+  const [selectedPhuong, setSelectedPhuong] = useState("");
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(e.currentTarget);
     const data = new FormData(e.currentTarget);
-    
-      const address = {
+
+    const address = {
       fullName: data.get("firstName"),
       email: data.get("email"),
-      address: ` ${selectedTinh}, ${selectedQuan}, ${selectedPhuong}/ ${data.get("address")}`,
+      address: ` ${selectedTinh}, ${selectedQuan}, ${selectedPhuong}/ ${data.get(
+        "address"
+      )}`,
       mobileNumber: data.get("phoneNumber"),
     };
     const orderData = { address };
-    console.log(orderData); 
+    console.log(orderData);
     setSelected(address);
     setActiveStep(1);
-    // dispatch(createrOrder(orderData));
   };
 
   return (
@@ -41,21 +41,28 @@ const DeliveryAddressForm = ({address, setSelected, setActiveStep}) => {
           lg={5}
           className="border rounded-e-md shadow-md h-[30.5rem] overflow-y-scroll"
         >
-            {address?.map((item) => (
-              <div key={item.id} className="p-5 py-7 border-b cursor-pointer">
-              <AddressCard  address={item}></AddressCard>
+          {address?.map((item) => (
+            <div key={item.id} className="p-5 py-7 border-b cursor-pointer">
+              <AddressCard address={item}></AddressCard>
               <Button
-                sx={{ mt: 2, bgcolor: "#917a67" }}
+                sx={{
+                  mt: 2,
+                  bgcolor: "#917a67",
+                  "&:hover": {
+                    bgcolor: "#baaf9d",
+                  },
+                }}
                 size="large"
                 variant="contained"
-                onClick={() => {setSelected(item);setActiveStep(1)}}
+                onClick={() => {
+                  setSelected(item);
+                  setActiveStep(1);
+                }}
               >
                 DELIVERY HERE
               </Button>
             </div>
-            ))}
-
-          
+          ))}
         </Grid>
 
         <Grid className="border" item xs={12} lg={7}>
@@ -95,12 +102,13 @@ const DeliveryAddressForm = ({address, setSelected, setActiveStep}) => {
                   ></CustomTextField>
                 </Grid>
 
-                <Grid item xs={12} sm={6} >
-                <LocationSelector
-                  setSelectedTinhValue={setSelectedTinh}
-                  setSelectedQuanValue={setSelectedQuan}
-                  setSelectedPhuongValue={setSelectedPhuong}
-                /></Grid>
+                <Grid item xs={12} sm={6}>
+                  <LocationSelector
+                    setSelectedTinhValue={setSelectedTinh}
+                    setSelectedQuanValue={setSelectedQuan}
+                    setSelectedPhuongValue={setSelectedPhuong}
+                  />
+                </Grid>
                 <Grid item xs={12} rowSpacing={5}>
                   <CustomTextField
                     required
@@ -113,7 +121,6 @@ const DeliveryAddressForm = ({address, setSelected, setActiveStep}) => {
                     rows={5}
                   ></CustomTextField>
                 </Grid>
-                
 
                 <Grid item xs={12} sm={6} rowSpacing={5}>
                   <Button
@@ -122,7 +129,7 @@ const DeliveryAddressForm = ({address, setSelected, setActiveStep}) => {
                       mt: 2,
                       bgcolor: "#917a67",
                       "&:hover": {
-                        bgcolor: "red",
+                        bgcolor: "#baaf9d",
                       },
                     }}
                     size="large"
