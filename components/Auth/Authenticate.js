@@ -15,7 +15,7 @@ const Authenticate = () => {
 
     if (token) {
       // Lưu token vào localStorage
-      localStorage.setItem('userToken', token);
+      localStorage.setItem('userToken', `"${token}"`);
       const user = dispatch(getUser(token))
       if (user) {
         router.push('/');
@@ -25,9 +25,6 @@ const Authenticate = () => {
       }
 
       ;
-    }else{
-      router.push('/login');
-      toast.error("Dang nhap that bai! Do email da duoc su dung");
     }
   }, []);
 
