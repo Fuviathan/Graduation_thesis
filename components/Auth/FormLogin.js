@@ -63,8 +63,8 @@ const FormLogin = () => {
 
   const baseURL = API_BASE_URL;
   let currentURL ;
-  if(window){
-    currentURL= window.location.origin;
+  if (typeof window !== "undefined") {
+    currentURL = window.location.origin;
   }
 
 
