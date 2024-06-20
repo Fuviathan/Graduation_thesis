@@ -3,12 +3,15 @@ import Button from "@mui/material/Button";
 import Link from "next/link";
 import { CustomTextField } from "./CustomTextField";
 import { useRouter } from "next/router";
-// import { signIn } from "next-auth/react";
 import { useDispatch } from "react-redux";
-import { login } from "@/state/Auth/Action";
+import { login, loginWithGoogle } from "@/state/Auth/Action";
 import "react-toastify/dist/ReactToastify.css";
 import BasicModal from "../Modal/BasicModal";
 import ForgotPasswordModal from "./ForgotPasswordModal";
+import GoogleIcon from '@mui/icons-material/Google'; // Import Google Icon
+import { redirect } from "next/dist/server/api-utils";
+import { API_BASE_URL } from "@/config/apiConfig";
+// import { signIn } from "next-auth/react"; // Uncomment this if you are using next-auth
 
 const FormLogin = () => {
   const [open, setOpen] = useState(false)
@@ -58,33 +61,12 @@ const FormLogin = () => {
     dispatch(login(formData));
   };
 
+  const baseURL = API_BASE_URL;
+  let currentURL ;
+  if(window){
+    currentURL= window.location.origin;
+  }
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   const newErrors = validateForm();
-
-  //   if (Object.keys(newErrors).length > 0) {
-  //     setError(newErrors);
-  //     return;
-  //   }
-  //   setError({});
-  //   console.log(formData)
-  //   const result = await signIn('credentials', {
-  //     redirect: false,
-  //     usernameOrEmail: formData.usernameOrEmail,
-  //     password: formData.password,
-  //   })
-  //   if (result.error) {
-  //     setError({ form: result.error })
-  //   } else {
-  //     router.push('/product')
-  //   }
-  // };
-
-  // const handleGoogleLogin = () => {
-  //   signIn('google')
-  // }
 
   return (
     <div className="w-full py-[5rem]">
@@ -118,7 +100,7 @@ const FormLogin = () => {
           <div onClick={() => setOpen(true)} className="text-base hover:cursor-pointer text-orange-gray hover:opacity-80">
             Quên mật khẩu?
           </div>
-          <div className="flex justify-center gap-5 mt-4 ">
+          <div className="flex justify-center gap-5 mt-4">
             <Button
               className="text-base font-semibold bg-light-brown text-orange-gray rounded-2xl hover:bg-light-brown hover:bg-opacity-80"
               type="submit"
@@ -128,7 +110,6 @@ const FormLogin = () => {
             >
               Đăng nhập
             </Button>
-
             <Button
               className="text-base font-semibold bg-light-brown text-orange-gray rounded-2xl hover:bg-light-brown hover:bg-opacity-80"
               type="submit"
@@ -143,10 +124,23 @@ const FormLogin = () => {
               Đăng ký
             </Button>
           </div>
+          <div className="flex justify-center mt-4">
+          <Button
+              className="text-base font-semibold bg-white text-orange-gray border-2 rounded-2xl hover:bg-light-brown hover:bg-opacity-80"
+              variant="contained"
+              size="large"
+              startIcon={<GoogleIcon />}
+            
+            >
+              <a href={`${baseURL}oauth2/authorize/google?redirect_uri=http://localhost:3000/oauth2/redirect`}>
+              Đăng nhập với Google
+              </a>
+            </Button>
+          </div>
         </form>
       </div>
       <BasicModal open={open} onClose={() => setOpen(false)}>
-        <ForgotPasswordModal open={open} onClose={() => setOpen(false)}/>          
+        <ForgotPasswordModal open={open} onClose={() => setOpen(false)} />
       </BasicModal>
     </div>
   );
