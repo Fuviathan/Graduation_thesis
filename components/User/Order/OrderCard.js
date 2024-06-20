@@ -9,7 +9,7 @@ const OrderCard = (props) => {
   const param = useParams();
   return (
     <div
-      onClick={() => router.push(`/orderHistory/${props.data.id}`)}
+      onClick={() => router.push(`/orderhistory/${props.data.id}`)}
       className="p-5 shadow-md hover:shadow-2xl "
     >
       <Grid container spacing={2} sx={{ justifyContent: "space-between" }}>

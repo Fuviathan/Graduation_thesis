@@ -86,11 +86,11 @@ const ProductCard = ({ grid, item }) => {
             </div>
             <div className="flex flex-wrap items-center ">
               <Rating
-                value={5}
+                value={item?.totalRating.toFixed(1)}
                 size={`${grid === 6 ? "large" : "small"}`}
               ></Rating>
               <div className="px-2 py-1 ml-2 mr-2 text-xs font-semibold bg-yellow-200 rounded">
-                5.0
+                {item?.totalRating.toFixed(1)}
               </div>
             </div>
           </div>

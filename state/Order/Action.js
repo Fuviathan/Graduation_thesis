@@ -47,8 +47,7 @@ export const createOrderCod = (orderId) => async (dispatch) => {
   try {
     const { data } = await api.put(`/user/orders/place/${orderId}`);
     dispatch({ type: CREATE_ORDER_WITH_COD_SUCCESS, payload: data });
-    toast.success("Tạo đơn hàng thành công!");
-    // setTimeout(redirect, 1000)
+    window.location.href = `/orderhistory/${orderId}`;
   } catch (error) {
     dispatch({ type: CREATE_ORDER_WITH_COD_FAILURE, payload: error.message });
   }
