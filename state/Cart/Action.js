@@ -36,7 +36,7 @@ export const getCart = () => async (dispatch) => {
 
 export const addProductToCart = (req) => async (dispatch) => {
   dispatch({ type: ADD_PRODUCT_TO_CART_REQUEST });
-  
+
   try {
     let { data } = await api.post(`/user/cart`, req);
     dispatch({ type: ADD_PRODUCT_TO_CART_SUCCESS, payload: data });
@@ -66,17 +66,17 @@ export const removeProductFromCart = (productId) => async (dispatch) => {
 };
 
 export const updateProductInCart = (req) => async (dispatch) => {
-  const itemID = req.id
-  console.log(req)
-  req.price =100;
-  console.log(req)
-  delete req.id
+  const {id, ...data} = req
+  const formdata = new FormData();
+  formdata.append("quantity", data.quantity);
+  formdata.append("price", data.price);
   dispatch({ type: UPDATE_PRODUCT_IN_CART_REQUEST });
   try {
-    await apiFormData.put(`/user/cart/${itemID}`, req);
+    await apiFormData.put(`user/cart/${req.id}`, formdata);
     dispatch({ type: UPDATE_PRODUCT_IN_CART_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: UPDATE_PRODUCT_IN_CART_FAILURE, payload: error.message });
+    console.log(error)
     // location.reload()
   }
 };

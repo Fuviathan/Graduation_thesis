@@ -13,10 +13,10 @@ const Cart = (props) => {
   }
 
   const cart = useSelector((store) => store?.cart?.cart);
-  console.log(cart)
+
 
   const cartItem = useSelector((store) => store?.cart?.cart?.totalItem);
-  console.log(cartItem)
+
   // useEffect(() => {
   //   // Get the value from local storage if it exists
   //   dispatch(getCart())
