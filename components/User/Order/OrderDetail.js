@@ -6,6 +6,7 @@ import { deepPurple } from "@mui/material/colors";
 import { Star, StarBorder, Start } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrderById } from "@/state/Order/Action";
+import { If } from 'react-haiku'
 
 const OrderDetails = ({ orderId }) => {
   const dispatch = useDispatch();
@@ -24,24 +25,21 @@ const OrderDetails = ({ orderId }) => {
         return 2;
       case "CONFIRMED":
         return 3;
-      case "SHIPPED":
-        return 4;
-      case "DELIVERED":
-        return 5;
       case "DELIVERY":
-        return 6;
+        return 4;
+      case "SHIPPED":
+        return 5;
       case "CANCELLED":
-        return 7;
+        return 6;
       case "RETURNED":
-        return 8;
+        return 7;
       default:
         return 1;
     }
   };
   return (
     <div className="px-5 lg:px-20">
-      <div>
-        <h1 className="font-bold text-lg py-10">Delivery Address</h1>
+      <div className="pt-10">
         <AddressCard address={order?.address}></AddressCard>
       </div>
 
@@ -57,22 +55,20 @@ const OrderDetails = ({ orderId }) => {
             key={item.id}
             item
             container
-            className="shadow-xl rounded-md p-5 border "
+            className="py-5 border rounded-md shadow-xl px-9 "
             sx={{ alignItems: "center", justifyContent: "space-between" }}
           >
             <Grid item xs={6}>
               <div className="flex items-center space-x-4">
                 <img
-                  className="w-[5rem] h-[5rem] object-cover object-top"
+                  className="w-[15rem] h-[10rem] object-fir mr-8 object-top"
                   src={item?.images[0]?.imageUrl}
                   alt=""
                 />
-                <div className="space-y-2 ml-5">
-                  <p className="font-semibold">{item?.title}</p>
-                  <p className="space-x-5 opacity-50 text-xs font-semibold">
-                    {/* <span>Color: {item.product.color}</span> */}
-                    {/* <span>Memory: {item.memory}</span> */}
-                    <div>
+                <div className="ml-5 space-y-2">
+                  <div className="text-xl font-semibold">{item?.title}</div>
+                  <div className="space-x-5 text-base font-semibold opacity-50">
+                    <div className="mt-2">
                       {item?.productSkus?.skuValues.map((item) => (
                         <span className="flex gap-2" key={item.id}>
                           <div>{item?.key?.option.name}</div>:
@@ -80,30 +76,30 @@ const OrderDetails = ({ orderId }) => {
                         </span>
                       ))}
                     </div>
-                    <span>Quantity: {item.quantity}</span>
-                  </p>
-                  {/* <p>Seller: {item.product.brand}</p> */}
+                    <span className="">Số lượng: {item.quantity}</span>
+                  </div>
                   <p className="space-x-5">
-                    <span className="text-green-500">
+                    <span className="text-lg font-semibold text-green-500">
                       {item.discountedPrice}$
                     </span>
-                    <span className="text-red-500 line-through">
+                    <span className="text-lg font-semibold line-through text-black-500">
                       {item.price}$
                     </span>
                   </p>
                 </div>
               </div>
             </Grid>
-
-            <Grid item>
-              <Box sx={{ color: deepPurple[500] }}>
-                <StarBorder
-                  className="px-2 text-5xl"
-                  sx={{ fontSize: "2rem" }}
-                ></StarBorder>
-                <span>Rate & Review Product</span>
-              </Box>
-            </Grid>
+            <If isTrue={order.orderStatus === 'SHIPPED'}>
+              <Grid item className="group">
+                <Box sx={{ color: deepPurple[500] }}>
+                  <StarBorder
+                    className="px-2 text-5xl group-hover:opacity-80"
+                    sx={{ fontSize: "2rem" }}
+                  ></StarBorder>
+                  <button className="group-hover:opacity-80">Đánh giá sản phẩm</button>
+                </Box>
+              </Grid>
+            </If>
           </Grid>
         ))}
       </Grid>

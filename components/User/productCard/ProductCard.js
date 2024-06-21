@@ -14,14 +14,12 @@ const ProductCard = ({ grid, item }) => {
       }}
     >
       <div
-        className={`flex w-full overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md h-[25rem] ${
-          grid === 6 ? " flex-row justify-start" : " flex-col"
-        } `}
+        className={`flex w-full overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md h-[25rem] ${grid === 6 ? " flex-row justify-start" : " flex-col"
+          } `}
       >
         <div
-          className={`relative border m-4 flex h-60 overflow-hidden rounded-xl w-max-full ${
-            grid === 6 ? " w-1/3 " : " "
-          } `}
+          className={`relative border m-4 flex h-60 overflow-hidden rounded-xl w-max-full ${grid === 6 ? " w-1/3 " : " "
+            } `}
         >
           <div className="w-full h-full">
             <img
@@ -69,17 +67,15 @@ const ProductCard = ({ grid, item }) => {
           </div> */}
         </div>
         <div
-          className={`ml-auto mt-4 px-5 pb-5 w-full ${
-            grid === 6 ? "w-full" : ""
-          }`}
+          className={`ml-auto mt-4 px-5 pb-5 w-full ${grid === 6 ? "w-full" : ""
+            }`}
         >
           <div className="flex flex-wrap justify-between w-full">
             <div>
               <div
                 title={item?.title}
-                className={`tracking-tight text-slate-900 font-semibold text-nowrap text-ellipsis overflow-hidden ${
-                  grid === 6 ? "w-full" : "w-[12rem]"
-                }`}
+                className={`tracking-tight text-slate-900 font-semibold text-nowrap text-ellipsis overflow-hidden ${grid === 6 ? "w-full" : "w-[12rem]"
+                  }`}
               >
                 {item?.title}
               </div>
@@ -94,21 +90,20 @@ const ProductCard = ({ grid, item }) => {
               </div>
             </div>
           </div>
-          <div className={`flex items-center justify-between ${
-            grid === 6 ? 'mt-2 mb-5' : 'mt-3'
-          }`}>
-            <p>
-              <span className={`font-bold text-slate-900 ${
-                grid === 6 ? 'text-3xl' : 'text-2xl'
-              }`}>
-                ${(item?.productSkus[0].price - (item?.productSkus[0].price * item?.discountPercent) / 100).toFixed(2)}
-              </span>
+          <div className={`flex items-center justify-between ${grid === 6 ? 'mt-2 mb-5' : 'mt-3'
+            }`}>
+            <div className="flex flex-col">
               {item?.discountPercent !== 0 && (
-                <span className="ml-2 text-sm line-through text-slate-900">
-                  ${item?.productSkus[0].price.toFixed(2)}
+                <span className="text-base line-through text-slate-900">
+                  ${item?.productSkus[0].price}
                 </span>
               )}
-            </p>
+              <span className={`font-bold text-slate-900 ${grid === 6 ? 'text-3xl' : 'text-2xl'
+                }`}>
+                ${(item?.productSkus[0].price - (item?.productSkus[0].price * item?.discountPercent) / 100)}
+              </span>
+
+            </div>
           </div>
           <div className="w-full ">
             {grid === 6 && (

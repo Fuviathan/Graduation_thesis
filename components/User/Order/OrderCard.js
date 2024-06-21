@@ -9,23 +9,23 @@ const OrderCard = (props) => {
   const param = useParams();
   return (
     <div
-      onClick={() => router.push(`/orderhistory/${props.data.id}`)}
-      className="p-5 shadow-md hover:shadow-2xl "
+      onClick={() => router.push(`/orderHistory/${props.data.id}`)}
+      className="p-5 border-2 border-gray-200 rounded-lg shadow-md hover:shadow-xl"
     >
       <Grid container spacing={2} sx={{ justifyContent: "space-between" }}>
         <Grid item xs={6}>
-          <div className=" flex cursor-pointer">
+          <div className="flex cursor-pointer ">
             <img
-              className="w-[5rem] h-[5rem] object-cover object-top "
+              className="w-[8rem] h-[8rem] object-fit object-top "
               src={props?.data?.orderItems[0]?.images[0]?.imageUrl}
               alt="a"
             />
             <div className="ml-5 space-y-2">
               <p> {props.data.orderDate}</p>
-              <p className="opacity-50 text-xs font-semibold">
+              <p className="text-xs font-semibold opacity-50">
                 {props.data.address.fullName}
               </p>
-              <p className="opacity-50 text-xs font-semibold">
+              <p className="text-xs font-semibold opacity-50">
                 {props.data.address.mobileNumber}
               </p>
             </div>
@@ -33,7 +33,7 @@ const OrderCard = (props) => {
         </Grid>
 
         <Grid item xs={2}>
-          <p>{props.data.totalDiscountedPrice}$</p>
+          <p className="text-xl font-semibold">{props.data.totalDiscountedPrice}$</p>
         </Grid>
 
         <Grid item xs={4}>

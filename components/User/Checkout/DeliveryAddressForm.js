@@ -42,7 +42,7 @@ const DeliveryAddressForm = ({ address, setSelected, setActiveStep }) => {
           className="border rounded-e-md shadow-md h-[30.5rem] overflow-y-scroll"
         >
           {address?.map((item) => (
-            <div key={item.id} className="p-5 py-7 border-b cursor-pointer">
+            <div key={item.id} className="p-5 border-b cursor-pointer py-7">
               <AddressCard address={item}></AddressCard>
               <Button
                 sx={{
@@ -59,15 +59,18 @@ const DeliveryAddressForm = ({ address, setSelected, setActiveStep }) => {
                   setActiveStep(1);
                 }}
               >
-                DELIVERY HERE
+                Chọn địa chỉ này
               </Button>
             </div>
           ))}
         </Grid>
 
         <Grid className="border" item xs={12} lg={7}>
-          <Box className="bordder rounded-s-sm shadow-md p-5">
+          <div className="text-xl font-semibold uppercase">Địa chỉ nhận hàng mới</div>
+          <Box className="p-5 shadow-md bordder rounded-s-sm">
+
             <form onSubmit={handleSubmit}>
+
               <Grid container spacing={3}>
                 <Grid item xs={12} sm={6} rowSpacing={5}>
                   <CustomTextField
@@ -136,7 +139,7 @@ const DeliveryAddressForm = ({ address, setSelected, setActiveStep }) => {
                     variant="contained"
                     type="submit"
                   >
-                    DELIVERY HERE
+                    Chọn địa chỉ này
                   </Button>
                 </Grid>
               </Grid>

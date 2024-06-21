@@ -14,7 +14,7 @@ import { useEffect } from "react";
 // import DeliveryAddressForm from "./DeliveryAddressForm";
 // import OrderSummary from "./OrderSummary";
 
-const steps = ["Add Delivery Address", "Order Summary", "Paytment"  ];
+const steps = ["Chọn địa chỉ giao hàng", "Thông tin đơn hàng", "Thanh toán"];
 
 export default function Checkout() {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -47,7 +47,7 @@ export default function Checkout() {
   };
 
   return (
-    <div className="px-10 lg:px-20 mt-10">
+    <div className="px-10 mt-10 lg:px-20">
       <Box sx={{ width: "100%" }}>
         <Stepper activeStep={activeStep}>
           {steps.map((label, index) => {
@@ -55,23 +55,23 @@ export default function Checkout() {
             const labelProps = {};
 
             return (
-              <Step  key={label} {...stepProps}>
+              <Step key={label} {...stepProps}>
                 <StepLabel
-              {...labelProps}
-              StepIconProps={{
-                sx: {
-                  "&.Mui-active": {
-                    color: "#917a67",
-                  },
-                  "&.Mui-completed": {
-                    color: "#ede2d1",
-                  },
-                  color: "brown-green", // Default color for inactive steps
-                },
-              }}
-            >
-              {label}
-            </StepLabel>
+                  {...labelProps}
+                  StepIconProps={{
+                    sx: {
+                      "&.Mui-active": {
+                        color: "#917a67",
+                      },
+                      "&.Mui-completed": {
+                        color: "#ede2d1",
+                      },
+                      color: "brown-green", // Default color for inactive steps
+                    },
+                  }}
+                >
+                  {label}
+                </StepLabel>
               </Step>
             );
           })}
@@ -97,35 +97,35 @@ export default function Checkout() {
             
 
              */}
-            <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Button
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}
-            >
-              Back
-            </Button>
-            <Box sx={{ flex: '1 1 auto' }} />
-            {/* {isStepOptional(activeStep) && (
+            <Typography sx={{ mt: 2, mb: 1 }}>Bước {activeStep + 1}</Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+              <Button
+                color="inherit"
+                disabled={activeStep === 0}
+                onClick={handleBack}
+                sx={{ mr: 1 }}
+              >
+                Quay lại
+              </Button>
+              <Box sx={{ flex: '1 1 auto' }} />
+              {/* {isStepOptional(activeStep) && (
               <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
                 Skip
               </Button>
             )} */}
-            
 
-            <Button color="inherit" onClick={handleNext}>
-              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-            </Button>
-          </Box>
-            
+
+              <Button color="inherit" onClick={handleNext}>
+                {activeStep === steps.length - 1 ? 'Hoàn thành' : 'Tiếp tục'}
+              </Button>
+            </Box>
+
           </React.Fragment>
         )}
       </Box>
       <div className="h-full mt-10">
-             {activeStep == 0 && <DeliveryAddressForm address={address} setSelected={setAddressSelected} setActiveStep={setActiveStep}></DeliveryAddressForm>}
-            {activeStep == 1 && <OrderSummary address={addressSelected} cart={cart} ></OrderSummary>}
+        {activeStep == 0 && <DeliveryAddressForm address={address} setSelected={setAddressSelected} setActiveStep={setActiveStep}></DeliveryAddressForm>}
+        {activeStep == 1 && <OrderSummary address={addressSelected} cart={cart} ></OrderSummary>}
       </div>
     </div>
   );

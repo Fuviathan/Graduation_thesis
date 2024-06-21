@@ -218,7 +218,7 @@ export default function ProductDetail({ product, reviewsList }) {
                     className="flex items-center justify-center mb-4"
                     aria-label="Platform"
                   >
-                    <div className="w-8 mr-4 font-semibold text-center text-md ">
+                    <div className="w-8 mr-8 font-semibold text-center text-md ">
                       {option.name}
                     </div>
                     {option.optionValues.map((optionValue) => {
@@ -231,7 +231,7 @@ export default function ProductDetail({ product, reviewsList }) {
                       );
                       return (
                         <ToggleButton
-                          className={`w-20 h-10 mr-4 border ${
+                          className={`w-20 h-10 mr-4 rounded-lg border ${
                             isAvailable
                               ? "border-gray-300"
                               : "border-gray-200 text-gray-400 line-through"

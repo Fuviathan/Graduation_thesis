@@ -8,8 +8,8 @@ const orderStatus = [
   { label: "Chờ xử lý", value: "PENDING" },
   { label: "Đã đăt hàng", value: "PLACED" },
   { label: "Đã xác nhận", value: "CONFIRMED" },
-  { label: "Đang vận chuyển", value: "SHIPPED" },
-  { label: "Đã giao hàng", value: "DELIVERED" },
+  { label: "Đang vận chuyển", value: "DELIVERY" },
+  { label: "Đã giao hàng", value: "SHIPPED" },
   { label: "Hủy", value: "CANCELLED" },
   { label: "Trả hàng", value: "RETURNED" },
 ];
@@ -36,17 +36,17 @@ const Order = () => {
     <div className="px-5 lg:p-20">
       <Grid container sx={{ justifyContent: "space-between" }}>
         <Grid item xs={2.5}>
-          <div className="h-auto shadow-lg bg-white p-5 sticky top-5">
-            <h1 className="font-bold text-lg">Filters</h1>
+          <div className="sticky h-auto p-5 bg-white border-2 border-gray-300 rounded-lg shadow-lg top-5">
+            <h1 className="text-lg font-bold">Filters</h1>
 
-            <div className="space-y-4 mt-10">
+            <div className="mt-10 space-y-4">
               <h1 className="font-semibold">Trạng thái đơn hàng</h1>
               {orderStatus.map((option, index) => (
-                <div key={index} className="flex items-center">
+                <div key={index} className="flex items-center ">
                   <input
                     value={option.value}
                     type="checkbox"
-                    className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    className="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
                     onChange={() => handleFilterChange(option.value)}
                   />
                   <label

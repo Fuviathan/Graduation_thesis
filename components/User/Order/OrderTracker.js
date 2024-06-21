@@ -3,9 +3,7 @@ import React from "react";
 
 const steps = [
   "Đang xử lý",
-  "Đơn hàng đã tạo",
   "Đơn hàng đã được xác nhận",
-  "Đã giao cho đơn vị vận chuyển",
   "Đang giao hàng",
   "Đã giao hàng",
 ];
