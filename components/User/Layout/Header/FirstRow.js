@@ -131,12 +131,12 @@ export default function FirstRow(props) {
                 <div className="ml-2 text-sm font-medium uppercase text-orange-gray ">
                   {auth?.lastName} {auth?.firstName}
                 </div>
-                <p
-                  onClick={handleLogout}
+                <Link
+                  href='/userAddress'
                   className="ml-2 text-sm font-medium hover:underline text-orange-gray hover:underline-offset-2"
                 >
                   Xem thông tin
-                </p>
+                </Link>
               </div>
             )}
           </div>
