@@ -17,14 +17,18 @@ import SwiperProduct from "./SwiperProduct";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { If } from "react-haiku";
-import { getFavoriteList, addProductToFavoriteList, deleteProductFromFavoriteList } from "@/state/Products/Action";
+import {
+  getFavoriteList,
+  addProductToFavoriteList,
+  deleteProductFromFavoriteList,
+} from "@/state/Products/Action";
 import { addProductToCart, getCart } from "@/state/Cart/Action";
 import { toast } from "react-toastify";
 // import { Rating } from "@mui/material";
 
 export default function ProductDetail({ product, reviewsList }) {
-  const router = useRouter()
-  console.log(product)
+  const router = useRouter();
+  console.log(product);
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
 
@@ -36,54 +40,48 @@ export default function ProductDetail({ product, reviewsList }) {
     const optionChoosen = {
       ...selectedValues,
       [option.name]: atribute,
-    }
+    };
     setSelectedValues(optionChoosen);
     handleChoosenData(optionChoosen);
   };
 
-
   const handleChoosenData = (optionChoosen) => {
     for (let productSku of product.productSkus) {
-        let allConditionsMet = true;
+      let allConditionsMet = true;
 
-        for (let skuValue of productSku.skuValues) {
-            console.log(skuValue.optionValues.id);
-            console.log(optionChoosen[skuValue.option.name]);
+      for (let skuValue of productSku.skuValues) {
+        console.log(skuValue.optionValues.id);
+        console.log(optionChoosen[skuValue.option.name]);
 
-            if (skuValue.optionValues.id !== optionChoosen[skuValue.option.name]) {
-                allConditionsMet = false;
-                console.log("false");
-                break;
-            }
+        if (skuValue.optionValues.id !== optionChoosen[skuValue.option.name]) {
+          allConditionsMet = false;
+          console.log("false");
+          break;
         }
+      }
 
-        if (allConditionsMet) {
-            setChoosenData(productSku);
-            console.log(productSku);
-            return; // Exit the function early since a matching productSku is found
-        }
+      if (allConditionsMet) {
+        setChoosenData(productSku);
+        console.log(productSku);
+        return; 
+      }
     }
 
-    // If no matching productSku is found
-    setChoosenData({quantity:0});
-};
+    setChoosenData(null);
+  };
 
-
-
-  console.log(selectedValues)
-  // handleAddToCart function to add the product to the cart
+  console.log(selectedValues);
   
 
-
-  const favoriteList = useSelector((store) => store.product?.favoriteList)
-  let userInformation
-  if (typeof window !== 'undefined') {
-    userInformation = localStorage.getItem('userInformation') || ""
+  const favoriteList = useSelector((store) => store.product?.favoriteList);
+  let userInformation;
+  if (typeof window !== "undefined") {
+    userInformation = localStorage.getItem("userInformation") || "";
     if (userInformation) {
-      userInformation = JSON.parse(userInformation)
+      userInformation = JSON.parse(userInformation);
     }
   }
-  console.log(userInformation)
+  console.log(userInformation);
   // ======= OPTION MENU==============
   const handleOption = (e) => {
     e.target.parentElement.querySelector(".down")?.classList.toggle("hidden");
@@ -98,23 +96,22 @@ export default function ProductDetail({ product, reviewsList }) {
     const data = {
       productSkuId: choosenData?.id,
       quantity: quantity,
-    }
+    };
     dispatch(addProductToCart(data));
-    setTimeout(() => dispatch(getCart()), 1000)
+    setTimeout(() => dispatch(getCart()), 1000);
   }
 
   useEffect(() => {
     dispatch(getFavoriteList());
   }, []);
 
- 
   let arr = [];
   favoriteList.map((list) => {
-    arr.push(list.id)
-  })
-  const bool = arr.includes(product.id)
-  console.log(choosenData)
-  console.log(selectedValues)
+    arr.push(list.id);
+  });
+  const bool = arr.includes(product.id);
+  console.log(choosenData);
+  console.log(selectedValues);
   return (
     <div className="mx-auto mt-8 max-w-[1320px]">
       <div className="grid gap-2 p-6 bg-white border rounded-lg shadow-lg sm:grid-cols-1 lg:grid-cols-2">
@@ -135,8 +132,15 @@ export default function ProductDetail({ product, reviewsList }) {
               {/* <span className="text-lg font-semibold line-through">{product?.productSkus[0].price.toFixed(2)}$</span> */}
             </div>
             <div className="flex items-center gap-5">
-              <Rating value={reviewsList?.averageRating} readOnly precision={0.1} size='large'></Rating>
-              <div className="font-semibold text-gray-400 ">Dựa trên {reviewsList?.totalReviews} đánh giá</div>
+              <Rating
+                value={reviewsList?.averageRating}
+                readOnly
+                precision={0.1}
+                size="large"
+              ></Rating>
+              <div className="font-semibold text-gray-400 ">
+                Dựa trên {reviewsList?.totalReviews} đánh giá
+              </div>
             </div>
           </div>
           {/* ==============Category================ */}
@@ -165,7 +169,7 @@ export default function ProductDetail({ product, reviewsList }) {
             <div className="flex gap-4 mb-3">
               <div className="font-semibold">Số lượng tồn kho :</div>
               <div className="font-semibolđ opacity-90 text-yellow-600  font-mono">
-                 {choosenData?.quantity >-1 ? choosenData?.quantity : product?.totalQuantity }
+                {product?.totalQuantity}
               </div>
             </div>
 
@@ -217,16 +221,34 @@ export default function ProductDetail({ product, reviewsList }) {
                     <div className="w-8 mr-4 font-semibold text-center text-md ">
                       {option.name}
                     </div>
-                    {option.optionValues.map((optionValue) => (
-                      <ToggleButton
-                        className="w-20 h-10 mr-4 border border-gray-300 rounded-md"
-                        key={option.id}
-                        defaultValue={optionValue.value}
-                        value={optionValue.id}
-                      >
-                        {optionValue?.value}
-                      </ToggleButton>
-                    ))}
+                    {option.optionValues.map((optionValue) => {
+                      // Check if optionValue.id is available in any productSku
+                      const isAvailable = product.productSkus.some((sku) =>
+                        sku.skuValues.some(
+                          (skuValue) =>
+                            skuValue.optionValues.id === optionValue.id
+                        )
+                      );
+                      return (
+                        <ToggleButton
+                          className={`w-20 h-10 mr-4 border ${
+                            isAvailable
+                              ? "border-gray-300"
+                              : "border-gray-200 text-gray-400 line-through"
+                          }`}
+                          key={optionValue.id}
+                          value={optionValue.id}
+                          disabled={!isAvailable} // Disable button if not available
+                          style={{
+                            textDecoration: !isAvailable
+                              ? "line-through"
+                              : "none",
+                          }} // Add strike-through if not available
+                        >
+                          {optionValue.value}
+                        </ToggleButton>
+                      );
+                    })}
                   </ToggleButtonGroup>
                 </div>
               ))}
@@ -247,17 +269,20 @@ export default function ProductDetail({ product, reviewsList }) {
                 </Button>
               </If>
               <If isTrue={!userInformation}>
-                <Button
-                  className="shadow-lg bg-brown-green hover:bg-brown-green hover:bg-opacity-80"
-                  variant="contained"
-                  size="large"
-                  onClick={() => {
-                    router.push('/login');
-                  }}
-                >
-                  <AddShoppingCart />
-                  <div className="font-semibold">Thêm vào giỏ hàng</div>
-                </Button>
+                  <Button
+                    className="shadow-lg bg-brown-green hover:bg-brown-green hover:bg-opacity-80"
+                    variant="contained"
+                    size="large"
+                    onClick={() => {
+                      router.push("/login");
+                    }}
+                  >
+                    <AddShoppingCart />
+                    <div className="font-semibold">Thêm vào giỏ hàng</div>
+                  </Button>
+                  <div >
+                    {choosenData?.quantity ? `${choosenData?.quantity} sản phẩm còn lại`:""} 
+                  </div>
               </If>
               {/* <Button
                 className="shadow-lg bg-light-brown hover:cursor-pointer text-orange-gray hover:bg-opacity-80 hover:bg-light-brown"
@@ -382,7 +407,7 @@ export default function ProductDetail({ product, reviewsList }) {
               className="flex cursor-pointer"
               onClick={() => {
                 navigator.clipboard.writeText(window.location.href);
-                toast.success('Đã sao chép địa chỉ của sản phẩm')
+                toast.success("Đã sao chép địa chỉ của sản phẩm");
               }}
             >
               <Share className="me-2" />
