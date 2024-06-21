@@ -23,7 +23,10 @@ import {
   DELETE_NEW_ADDRESS_SUCCESS,
   FORGOT_PASSWORD_WITH_EMAIL_FAILURE,
   FORGOT_PASSWORD_WITH_EMAIL_REQUEST,
-  FORGOT_PASSWORD_WITH_EMAIL_SUCCESS
+  FORGOT_PASSWORD_WITH_EMAIL_SUCCESS, 
+  CHANGE_PASSWORD_FAILURE, 
+  CHANGE_PASSWORD_REQUEST, 
+  CHANGE_PASSWORD_SUCCESS
 } from "./ActionType";
 
 const initialState = {
@@ -38,6 +41,7 @@ export const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case FORGOT_PASSWORD_WITH_EMAIL_REQUEST:
     case GET_ALL_ADDRESS_REQUEST:
+    case CHANGE_PASSWORD_REQUEST:
     case CREATE_NEW_ADDRESS_REQUEST:
     case DELETE_NEW_ADDRESS_REQUEST:
     case UPDATE_NEW_ADDRESS_REQUEST:
@@ -54,6 +58,7 @@ export const authReducer = (state = initialState, action) => {
     case UPDATE_NEW_ADDRESS_SUCCESS:
     case DELETE_NEW_ADDRESS_SUCCESS:
     case CREATE_NEW_ADDRESS_SUCCESS:
+    case CHANGE_PASSWORD_SUCCESS:
     case FORGOT_PASSWORD_WITH_EMAIL_SUCCESS:
       return { ...state, isLoading: false, error: null, log: action.payload };
     case REGISTER_FAILURE:
@@ -63,6 +68,7 @@ export const authReducer = (state = initialState, action) => {
     case CREATE_NEW_ADDRESS_FAILURE:
     case UPDATE_NEW_ADDRESS_FAILURE:
     case DELETE_NEW_ADDRESS_FAILURE:
+    case CHANGE_PASSWORD_FAILURE:
     case GET_USER_FAILURE:
       return { ...state, isLoading: false, error: action.payload };
     case LOGOUT:

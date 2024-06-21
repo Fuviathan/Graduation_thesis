@@ -11,13 +11,18 @@ export default function Address(props) {
   useEffect(() => {
     dispatch(getAllAddress())
   }, [addressList]);
-  
+
   return (
     <div className="mx-auto top-0 max-w-[1320px]">
       <div className="min-h-[50vh] ">
         <div className="flex items-center gap-x-4">
           <div className="mb-2 text-xl font-semibold">Danh sách các địa chỉ của bạn</div>
-          <button onClick={() => props.setOpen(true)} className="px-4 py-2 font-semibold rounded-lg hover:opacity-70 hover:cursor-pointer bg-light-brown">Tạo địa chỉ mới</button>
+          <div className="flex">
+            <button onClick={() => props.setOpen(true)} className="px-4 py-2 mr-4 font-semibold rounded-lg hover:opacity-70 hover:cursor-pointer bg-light-brown">Tạo địa chỉ mới</button>
+            <button onClick={() => props.setOpenChange(true)} className="px-4 py-2 font-semibold rounded-lg hover:opacity-70 hover:cursor-pointer bg-light-brown">Đổi mật khẩu</button>
+
+          </div>
+
         </div>
 
         <div className="mt-5">

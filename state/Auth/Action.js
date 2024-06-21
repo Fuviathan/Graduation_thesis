@@ -24,7 +24,10 @@ import {
   DELETE_NEW_ADDRESS_SUCCESS,
   FORGOT_PASSWORD_WITH_EMAIL_FAILURE,
   FORGOT_PASSWORD_WITH_EMAIL_REQUEST,
-  FORGOT_PASSWORD_WITH_EMAIL_SUCCESS
+  FORGOT_PASSWORD_WITH_EMAIL_SUCCESS,
+  CHANGE_PASSWORD_FAILURE,
+  CHANGE_PASSWORD_REQUEST,
+  CHANGE_PASSWORD_SUCCESS
 } from "./ActionType";
 import { API_BASE_URL, api } from "@/config/apiConfig";
 import { toast } from "react-toastify";
@@ -43,7 +46,7 @@ export const register = (userData) => async (dispatch) => {
     setTimeout(redirect, 1000)
   } catch (error) {
     dispatch({ type: REGISTER_FAILURE, payload: error });
-    toast.error(error?.response?.data.message);
+    toast.error(error?.response.data);
   }
 };
 
@@ -148,6 +151,20 @@ export const forgotPassword = (req) => async (dispatch) => {
     toast.success("Mật khẩu mới đã được gửi đến email của bạn!");
   } catch (error) {
     dispatch({ type: FORGOT_PASSWORD_WITH_EMAIL_FAILURE, payload: error });
+    toast.error(error?.response?.data.message);
+  }
+}
+
+export const changePassword = (req) => async (dispatch) => {
+  console.log(req)
+  dispatch({ type: CHANGE_PASSWORD_REQUEST })
+  try {
+    const { data } = await api.put(`${API_BASE_URL}api/auth/update-profile`, req);
+    dispatch({ type: CHANGE_PASSWORD_SUCCESS, payload: data });
+    toast.success("Thay đổi mật khẩu thành công!");
+  } catch (error) {
+    dispatch({ type: CHANGE_PASSWORD_FAILURE, payload: error });
+    console.log(error.response)
     toast.error(error?.response?.data.message);
   }
 }
