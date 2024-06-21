@@ -132,7 +132,7 @@ const FormLogin = () => {
               startIcon={<GoogleIcon />}
             
             >
-              <a href={`${baseURL}oauth2/authorize/google?redirect_uri=http://localhost:3000/oauth2/redirect`}>
+              <a href={`${baseURL}oauth2/authorize/google?redirect_uri=https://graduation-thesis-frosty-morning-5421.fly.dev/oauth2/redirect`}>
               Đăng nhập với Google
               </a>
             </Button>
