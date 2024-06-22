@@ -14,6 +14,12 @@ import {
   GET_ALL_ORDERS_REQUEST,
   GET_ALL_ORDERS_SUCCESS,
   GET_ORDER_BY_ID_FAILURE,
+  DELETE_ORDER_FAILURE,
+  DELETE_ORDER_REQUEST,
+  DELETE_ORDER_SUCCESS, 
+  CREATE_REVIEW_REQUEST, 
+  CREATE_REVIEW_FAILURE, 
+  CREATE_REVIEW_SUCCESS
 } from "./ActionType";
 
 const initialState = {
@@ -24,6 +30,7 @@ const initialState = {
   orderData: null,
   loading: false,
   error: null,
+  log: null
 };
 export const orderReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -32,10 +39,20 @@ export const orderReducer = (state = initialState, action) => {
     case CREATE_ORDER_WITH_CASH:
     case GET_ALL_ORDERS_REQUEST:
     case GET_ORDER_BY_ID_REQUEST:
+    case DELETE_ORDER_REQUEST:
+    case CREATE_REVIEW_REQUEST:
       return {
         ...state,
         loading: true,
         error: null,
+      };
+    case DELETE_ORDER_SUCCESS:
+    case CREATE_REVIEW_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        log: action.payload,
       };
     case CREATE_ORDER_SUCCESS:
       return {
@@ -72,6 +89,8 @@ export const orderReducer = (state = initialState, action) => {
         error: null,
         orders: action.payload,
       };
+    case DELETE_ORDER_FAILURE:
+    case CREATE_REVIEW_FAILURE:
     case CREATE_ORDER_FAILURE:
     case CREATE_ORDER_WITH_COD_FAILURE:
     case CREATE_ORDER_WITH_CASH_FAILURE:

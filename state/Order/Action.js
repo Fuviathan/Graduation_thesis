@@ -1,4 +1,5 @@
-import { api } from "@/config/apiConfig";
+import axios from "axios";
+import { api, API_BASE_URL } from "@/config/apiConfig";
 import { apiFormData } from "@/config/apiConfig";
 import {
   CREATE_ORDER_FAILURE,
@@ -17,6 +18,12 @@ import {
   GET_ORDER_BY_ID_FAILURE,
   GET_ORDER_BY_ID_REQUEST,
   GET_ORDER_BY_ID_SUCCESS,
+  DELETE_ORDER_FAILURE,
+  DELETE_ORDER_REQUEST,
+  DELETE_ORDER_SUCCESS, 
+  CREATE_REVIEW_FAILURE,
+  CREATE_REVIEW_REQUEST,
+  CREATE_REVIEW_SUCCESS
 } from "./ActionType";
 import { toast } from "react-toastify";
 
@@ -47,7 +54,7 @@ export const createOrderCod = (orderId) => async (dispatch) => {
   try {
     const { data } = await api.put(`/user/orders/place/${orderId}`);
     dispatch({ type: CREATE_ORDER_WITH_COD_SUCCESS, payload: data });
-    window.location.href = `/orderhistory/${orderId}`;
+    window.location.href = `/orderHistory/${orderId}`;
   } catch (error) {
     dispatch({ type: CREATE_ORDER_WITH_COD_FAILURE, payload: error.message });
   }
@@ -87,5 +94,33 @@ export const getOrderById = (orderId) => async (dispatch) => {
     dispatch({ type: GET_ORDER_BY_ID_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: GET_ORDER_BY_ID_FAILURE, payload: error.message });
+  }
+};
+
+export const DeleteOrderByID = (orderId) => async (dispatch) => {
+  dispatch({ type: DELETE_ORDER_REQUEST });
+
+  try {
+    const { data } = await axios.put(`${API_BASE_URL}user/orders/cancel/${orderId}`);
+    dispatch({ type: DELETE_ORDER_SUCCESS, payload: data });
+    toast.success("Huỷ đơn hàng thành công")
+  } catch (error) {
+    dispatch({ type: DELETE_ORDER_FAILURE, payload: error.message });
+    console.log(error)
+    toast.error(error.response.data)
+  }
+};
+
+export const CreateReview = (req) => async (dispatch) => {
+  dispatch({ type: CREATE_REVIEW_REQUEST });
+  console.log(req)
+  try {
+    const { data } = await api.post(`user/reviews-ratings/create`, req);
+    dispatch({ type: CREATE_REVIEW_SUCCESS, payload: data });
+    toast.success("Đánh giá thành công")
+  } catch (error) {
+    dispatch({ type: CREATE_REVIEW_FAILURE, payload: error.message });
+    console.log(error)
+    toast.error(error.response.data)
   }
 };

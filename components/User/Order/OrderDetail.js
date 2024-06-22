@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import AddressCard from "../Checkout/AddressCard";
 import OrderTracker from "./OrderTracker";
 import { Box, Grid } from "@mui/material";
@@ -7,16 +7,20 @@ import { Star, StarBorder, Start } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrderById } from "@/state/Order/Action";
 import { If } from 'react-haiku'
+import { TrashIcon } from "@heroicons/react/24/outline";
+import BasicModal from "@/components/Modal/BasicModal";
+import DeleteOrderModal from "./DeleteOrderModal";
+import CreateReviewModal from "./CreateReview/CreateReviewModal";
 
 const OrderDetails = ({ orderId }) => {
+  const [openDelete, setOpenDelete] = useState(false)
+  const [openReview, setOpenReview] = useState(false)
+  const [prodId, setProdId] = useState()
   const dispatch = useDispatch();
   const order = useSelector((store) => store.order.orderData);
-
-  console.log(order);
   useEffect(() => {
     dispatch(getOrderById(parseInt(orderId)));
   }, [orderId]);
-
   const checkStatusOrder = (status) => {
     switch (status) {
       case "PENDING":
@@ -69,8 +73,8 @@ const OrderDetails = ({ orderId }) => {
                   <div className="text-xl font-semibold">{item?.title}</div>
                   <div className="space-x-5 text-base font-semibold opacity-50">
                     <div className="mt-2">
-                      {item?.productSkus?.skuValues.map((item) => (
-                        <span className="flex gap-2" key={item.id}>
+                      {item?.productSkus?.skuValues.map((item, index) => (
+                        <span className="flex gap-2" key={index}>
                           <div>{item?.key?.option.name}</div>:
                           <div>{item?.optionValues?.value}</div>
                         </span>
@@ -80,10 +84,10 @@ const OrderDetails = ({ orderId }) => {
                   </div>
                   <p className="space-x-5">
                     <span className="text-lg font-semibold text-green-500">
-                      {item.discountedPrice}$
+                      {item.discountedPrice}đ
                     </span>
                     <span className="text-lg font-semibold line-through text-black-500">
-                      {item.price}$
+                      {item.price}đ
                     </span>
                   </p>
                 </div>
@@ -96,13 +100,27 @@ const OrderDetails = ({ orderId }) => {
                     className="px-2 text-5xl group-hover:opacity-80"
                     sx={{ fontSize: "2rem" }}
                   ></StarBorder>
-                  <button className="group-hover:opacity-80">Đánh giá sản phẩm</button>
+                  <button onClick={() => {setOpenReview(true);setProdId(item.productId)}} className="group-hover:opacity-80">Đánh giá sản phẩm</button>
                 </Box>
+              </Grid>
+            </If>
+            <If isTrue={order.orderStatus === 'PENDING' || order.orderStatus === "PLACED"}>
+              <Grid item className="group">
+                <button onClick={() => setOpenDelete(true)} className="flex items-center text-red-500 group">
+                  <TrashIcon className="w-8 h-8 mr-2 group-hover:opacity-70" />
+                  <p className="group-hover:opacity-70">Huỷ đơn hàng</p>
+                </button>
               </Grid>
             </If>
           </Grid>
         ))}
       </Grid>
+      <BasicModal open={openDelete} onClose={() => setOpenDelete(false)}>
+        <DeleteOrderModal open={openDelete} onClose={() => setOpenDelete(false)} id={orderId}/>
+      </BasicModal>
+      <BasicModal open={openReview} onClose={() => setOpenReview(false)}>
+        <CreateReviewModal open={openReview} onClose={() => setOpenReview(false)} id={prodId} />
+      </BasicModal>
     </div>
   );
 };
