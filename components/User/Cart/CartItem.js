@@ -26,7 +26,7 @@ const CartItem = ({ data }) => {
   }, [])
   return (
     <div className="">
-      <div className="flex w-full mb-2 border rounded-lg shadow">
+      <div className="flex w-full mb-2 border-2 border-gray-200 rounded-lg shadow">
         <div className="flex justify-center w-2/6 p-4 max-h-[9rem] min-h-fit ">
           <img
             className="object-contain"

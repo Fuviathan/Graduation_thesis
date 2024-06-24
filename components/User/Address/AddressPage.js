@@ -13,7 +13,7 @@ export default function Address(props) {
   }, [addressList]);
 
   return (
-    <div className="mx-auto top-0 max-w-[1320px]">
+    <div className="mx-auto top-0 max-w-[1320px] mt-6 px-4">
       <div className="min-h-[50vh] ">
         <div className="flex items-center gap-x-4">
           <div className="mb-2 text-xl font-semibold">Danh sách các địa chỉ của bạn</div>
