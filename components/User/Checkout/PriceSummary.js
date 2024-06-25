@@ -57,7 +57,7 @@ const PriceSummary = (props) => {
     value = JSON.parse(localStorage.getItem("user")) || null;
   }
   return (
-    <div className="">
+    <div className="h-full ">
       <div className="items-center px-8 py-4 border rounded-lg shadow ">
         <div className="mb-4 text-3xl font-bold text-center text-gray-700">
           Giá cả chi tiết
@@ -81,18 +81,18 @@ const PriceSummary = (props) => {
             <div className="text-green-600">Miễn phí</div>
           </div>
           <hr></hr>
-          <span className="text-sm">Nhập mã giảm giá</span>
-          <div className="flex justify-between gap-2  ">
+          <p className="my-2 text-base font-semibold">Nhập mã giảm giá</p>
+          <div className="flex justify-between">
             <input
               onChange={(e) => {
                 setCode(e.target.value);
                 console.log(e.target.value);
               }}
-              className="border focus:outline-gray-400 px-2 rounded-2xl w-[30vh]"
+              className="w-4/5 p-1 px-2 mr-4 border rounded-lg focus:outline-gray-400"
             ></input>
             <button
               onClick={handleCheckCoupon}
-              className="text-sm text-white rounded-md border px-3 bg-[#baaf9d] shadow hover:bg-[#a7967c]"
+              className="text-sm text-white rounded-md border px-3 w-1/5 bg-[#baaf9d] shadow hover:bg-[#a7967c]"
             >
               Áp dụng
             </button>
@@ -103,7 +103,7 @@ const PriceSummary = (props) => {
               <div className="">- {coupon?.discountValue}$</div>
             </div>
           )}
-          <div className="flex justify-between pt-3">
+          <div className="flex justify-between pt-3 mb-3">
             <div>Tổng số tiền</div>
             <div className="text-green-600">
               {props.cart?.totalDiscountedPrice?.toFixed(2) <
@@ -122,16 +122,16 @@ const PriceSummary = (props) => {
         {/* <div className="mb-4 text-3xl font-bold text-center text-gray-700">
           Phương thức thanh toán
         </div> */}
-        <div className="flex justify-between items-center font-semibold  pt-3 px-4" >
+        <div className="flex items-center justify-between px-4 pt-3 font-semibold" >
           <span>Phương thức thanh toán</span>
-          <select className="border focus:outline-gray-400 px-2 rounded-2xl w-[30vh]" onChange={(event)=> setMethod(event.target.value)}>
+          <select className="border py-2 mb-3 focus:outline-gray-400 px-2 rounded-lg w-[30vh]" onChange={(event)=> setMethod(event.target.value)}>
             <option value="COD">Thanh toán khi nhận hàng</option>
             <option value="CASH">Thanh toán bằng VnPay</option>
           </select>
         </div>
         <hr></hr>
         <button
-          className="w-full mt-4 py-2 rounded-lg bg-[#baaf9d] shadow hover:bg-[#a7967c] text-xl font-semibold text-white"
+          className="w-full mt-8 py-2 rounded-lg bg-[#baaf9d] shadow hover:bg-[#a7967c] text-xl font-semibold text-white"
           onClick={handleCreateOrder}
         >
           Tiến hành thanh toán

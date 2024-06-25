@@ -39,7 +39,7 @@ const DeliveryAddressForm = ({ address, setSelected, setActiveStep }) => {
         <Grid
           xs={12}
           lg={5}
-          className="border rounded-e-md shadow-md h-[30.5rem] overflow-y-scroll"
+          className="border rounded-lg shadow h-[30.5rem] overflow-y-scroll"
         >
           {address?.map((item) => (
             <div key={item.id} className="p-5 border-b cursor-pointer py-7">
