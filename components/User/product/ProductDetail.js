@@ -1,6 +1,5 @@
 import { Button, IconButton, Rating, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-// import Color from "./Color";
 import { useEffect, useState } from "react";
 import {
   AddShoppingCart,
@@ -24,11 +23,10 @@ import {
 } from "@/state/Products/Action";
 import { addProductToCart, getCart } from "@/state/Cart/Action";
 import { toast } from "react-toastify";
-// import { Rating } from "@mui/material";
+import { formatCurrency } from "../../util/util";
 
 export default function ProductDetail({ product, reviewsList }) {
   const router = useRouter();
-  console.log(product);
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
 
@@ -36,10 +34,10 @@ export default function ProductDetail({ product, reviewsList }) {
   const [choosenData, setChoosenData] = useState({});
 
   // handleOnChange function to update the state when a toggle button is selected
-  const handleOnChange = (option, event, atribute) => {
+  const handleOnChange = (option, event, attribute) => {
     const optionChoosen = {
       ...selectedValues,
-      [option.name]: atribute,
+      [option.name]: attribute,
     };
     setSelectedValues(optionChoosen);
     handleChoosenData(optionChoosen);
@@ -50,19 +48,14 @@ export default function ProductDetail({ product, reviewsList }) {
       let allConditionsMet = true;
 
       for (let skuValue of productSku.skuValues) {
-        console.log(skuValue.optionValues.id);
-        console.log(optionChoosen[skuValue.option.name]);
-
         if (skuValue.optionValues.id !== optionChoosen[skuValue.option.name]) {
           allConditionsMet = false;
-          console.log("false");
           break;
         }
       }
 
       if (allConditionsMet) {
         setChoosenData(productSku);
-        console.log(productSku);
         return; 
       }
     }
@@ -70,8 +63,16 @@ export default function ProductDetail({ product, reviewsList }) {
     setChoosenData(null);
   };
 
-  console.log(selectedValues);
-  
+  const isOptionAvailable = (selectedValues, optionName, optionValueId) => {
+    const tempSelectedValues = { ...selectedValues, [optionName]: optionValueId };
+    return product.productSkus.some((sku) =>
+      sku.skuValues.every((skuValue) =>
+        tempSelectedValues[skuValue.option.name]
+          ? skuValue.optionValues.id === tempSelectedValues[skuValue.option.name]
+          : true
+      )
+    );
+  };
 
   const favoriteList = useSelector((store) => store.product?.favoriteList);
   let userInformation;
@@ -81,8 +82,7 @@ export default function ProductDetail({ product, reviewsList }) {
       userInformation = JSON.parse(userInformation);
     }
   }
-  console.log(userInformation);
-  // ======= OPTION MENU==============
+
   const handleOption = (e) => {
     e.target.parentElement.querySelector(".down")?.classList.toggle("hidden");
     e.target.parentElement.querySelector(".up")?.classList.toggle("hidden");
@@ -110,8 +110,7 @@ export default function ProductDetail({ product, reviewsList }) {
     arr.push(list.id);
   });
   const bool = arr.includes(product.id);
-  console.log(choosenData);
-  console.log(selectedValues);
+  
   return (
     <div className="mx-auto mt-8 max-w-[1320px]">
       <div className="grid gap-2 p-6 bg-white border rounded-lg shadow-lg sm:grid-cols-1 lg:grid-cols-2">
@@ -127,10 +126,14 @@ export default function ProductDetail({ product, reviewsList }) {
             <h1 className="mb-2 font-sans text-2xl font-semibold ">
               {product?.title}
             </h1>
+            <div className="mr-2 font-semibolđ opacity-90 text-yellow-600 font-mono text-2xl">
+              {choosenData?.price ? `${formatCurrency(choosenData?.price)}`: ""}
+            </div>
             <div className="flex pt-2 mb-2 text-xl font-semibold">
               {/* <span className="mr-2 text-2xl">{(product?.productSkus[0].price - (product?.productSkus[0].price * product?.discountPercent) / 100).toFixed(2)}$</span> */}
               {/* <span className="text-lg font-semibold line-through">{product?.productSkus[0].price.toFixed(2)}$</span> */}
             </div>
+            
             <div className="flex items-center gap-5">
               <Rating
                 value={reviewsList?.averageRating}
@@ -201,6 +204,7 @@ export default function ProductDetail({ product, reviewsList }) {
               </IconButton>
             </div>
           </div> */}
+
           <div className="col-span-3 ">
             <If isTrue={product?.options}>
               {product?.options.map((option) => (
@@ -212,8 +216,8 @@ export default function ProductDetail({ product, reviewsList }) {
                     key={option.id}
                     exclusive
                     value={selectedValues[option.name] || null}
-                    onChange={(event, atribute) =>
-                      handleOnChange(option, event, atribute)
+                    onChange={(event, attribute) =>
+                      handleOnChange(option, event, attribute)
                     }
                     className="flex items-center justify-center mb-4"
                     aria-label="Platform"
@@ -222,28 +226,26 @@ export default function ProductDetail({ product, reviewsList }) {
                       {option.name}
                     </div>
                     {option.optionValues.map((optionValue) => {
-                      // Check if optionValue.id is available in any productSku
-                      const isAvailable = product.productSkus.some((sku) =>
-                        sku.skuValues.some(
-                          (skuValue) =>
-                            skuValue.optionValues.id === optionValue.id
-                        )
+                      const isAvailable = isOptionAvailable(
+                        selectedValues,
+                        option.name,
+                        optionValue.id
                       );
                       return (
                         <ToggleButton
                           className={`w-20 h-10 mr-4 rounded-lg border ${
                             isAvailable
                               ? "border-gray-300"
-                              : "border-gray-200 text-gray-400 line-through"
+                              : "border-gray-200 text-gray-400"
                           }`}
                           key={optionValue.id}
                           value={optionValue.id}
-                          disabled={!isAvailable} // Disable button if not available
+                          disabled={!isAvailable}
                           style={{
                             textDecoration: !isAvailable
                               ? "line-through"
                               : "none",
-                          }} // Add strike-through if not available
+                          }}
                         >
                           {optionValue.value}
                         </ToggleButton>
@@ -267,22 +269,29 @@ export default function ProductDetail({ product, reviewsList }) {
                   <AddShoppingCart />
                   <div className="font-semibold">Thêm vào giỏ hàng</div>
                 </Button>
+                <div>
+                  {choosenData?.quantity
+                    ? `${choosenData?.quantity} sản phẩm còn lại`
+                    : ""}
+                </div>
               </If>
               <If isTrue={!userInformation}>
-                  <Button
-                    className="shadow-lg bg-brown-green hover:bg-brown-green hover:bg-opacity-80"
-                    variant="contained"
-                    size="large"
-                    onClick={() => {
-                      router.push("/login");
-                    }}
-                  >
-                    <AddShoppingCart />
-                    <div className="font-semibold">Thêm vào giỏ hàng</div>
-                  </Button>
-                  <div >
-                    {choosenData?.quantity ? `${choosenData?.quantity} sản phẩm còn lại`:""} 
-                  </div>
+                <Button
+                  className="shadow-lg bg-brown-green hover:bg-brown-green hover:bg-opacity-80"
+                  variant="contained"
+                  size="large"
+                  onClick={() => {
+                    router.push("/login");
+                  }}
+                >
+                  <AddShoppingCart />
+                  <div className="font-semibold">Thêm vào giỏ hàng</div>
+                </Button>
+                <div>
+                  {choosenData?.quantity
+                    ? `${choosenData?.quantity} sản phẩm còn lại`
+                    : ""}
+                </div>
               </If>
               {/* <Button
                 className="shadow-lg bg-light-brown hover:cursor-pointer text-orange-gray hover:bg-opacity-80 hover:bg-light-brown"

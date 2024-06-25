@@ -2,6 +2,7 @@ import { Rating } from "@mui/material";
 import React, { useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { formatCurrency } from "../../util/util";
 
 
 const ProductCard = ({ grid, item }) => {
@@ -95,12 +96,12 @@ const ProductCard = ({ grid, item }) => {
             <div className="flex flex-col">
               {item?.discountPercent !== 0 && (
                 <span className="text-base line-through text-slate-900">
-                  ${item?.productSkus[0].price}
+                  {formatCurrency(item?.productSkus[0].price)}
                 </span>
               )}
               <span className={`font-bold text-slate-900 ${grid === 6 ? 'text-3xl' : 'text-2xl'
                 }`}>
-                ${(item?.productSkus[0].price - (item?.productSkus[0].price * item?.discountPercent) / 100)}
+                ${formatCurrency((item?.productSkus[0].price - (item?.productSkus[0].price * item?.discountPercent) / 100))}
               </span>
 
             </div>

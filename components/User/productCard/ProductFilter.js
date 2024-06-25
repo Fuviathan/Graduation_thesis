@@ -116,7 +116,7 @@ const ProductFilter = () => {
                           <button
                             key={item && item["id"] && index}
                             className={`px-2 p-1 text-base mb-1 font-semibold bg-[#ede2d1] rounded-md cursor-pointer ${item.name === category
-                                ? "border-yellow-700 border-opacity-40"
+                                ? "opacity-100 bg-yellow-700 bg-opacity-40 border-yellow-700 border-opacity-40"
                                 : ""
                               } `}
                             onClick={() =>
@@ -178,11 +178,14 @@ const ProductFilter = () => {
                           <button
                             key={item && item["id"]}
                             className={`px-2 text-base mb-1 p-1 font-semibold bg-[#ede2d1] rounded-md cursor-pointer ${brand === item.name
-                                ? "border-yellow-700 border-opacity-40"
+                                ? "opacity-100 bg-yellow-700 bg-opacity-40 border-yellow-700 border-opacity-40"
                                 : ""
                               }`}
                             onClick={() =>
-                              setBrand(brand === item.name ? "" : item.name)
+                              {setBrand(brand === item.name ? "" : item.name);
+                              console.log(brand);
+                              console.log(item.name)
+                            }
                             }
                           >
                             {item.name}
