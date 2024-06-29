@@ -24,6 +24,8 @@ import {
 import { addProductToCart, getCart } from "@/state/Cart/Action";
 import { toast } from "react-toastify";
 import { formatCurrency } from "../../util/util";
+import SimilarProductByCategory from "./SimilarProductByCategory";
+import SimilarProductByBrand from "./SimilarProductByBrand";
 
 export default function ProductDetail({ product, reviewsList }) {
   const router = useRouter();
@@ -437,6 +439,17 @@ export default function ProductDetail({ product, reviewsList }) {
       <div className="p-6 mt-8 border border-gray-200 rounded-lg shadow-lg">
         <Review reviewsList={reviewsList} />
       </div>
+
+      <div className="p-6 mt-8 border border-gray-200 rounded-lg shadow-lg">
+        <div className="text-2xl font-semibold">Một số sản phẩm cùng danh mục</div>
+        <SimilarProductByCategory category={product?.category.name} />
+      </div>
+
+      <div className="p-6 mt-8 border border-gray-200 rounded-lg shadow-lg">
+        <div className="text-2xl font-semibold">Có thể bạn quan tâm </div>
+        <SimilarProductByBrand brand={product?.brand.name} />
+      </div>
+
     </div>
   );
 }

@@ -58,17 +58,8 @@ const ProductFilter = () => {
   const brands = useSelector((store) => store?.product?.brand?.content);
   const categories = useSelector((store) => store?.product?.category?.content);
   useEffect(() => {
-    if (!router.query.category) {
-      dispatch(getProducts());
-    } else {
-      dispatch(getProductByFilter({ category: router.query.category }));
-      setCategory(router.query.category);
-      const query = new URLSearchParams(router.query);
-      query.delete('category');
-      router.replace(`/product?${query.toString()}`);
-    }
+    
     dispatch(getAllBrand());
-    // dispatch(getProductByColor());
     dispatch(getAllCategory());
   }, []);
 
@@ -92,6 +83,15 @@ const ProductFilter = () => {
   // ================ GET DATA FILTER ============
   useEffect(() => {
     if (!router.query.category) {
+      // dispatch(getProducts());
+    } else {
+      // dispatch(getProductByFilter({ category: router.query.category }));
+      setCategory(router.query.category);
+      const query = new URLSearchParams(router.query);
+      query.delete('category');
+      router.replace(`/product?${query.toString()}`);   
+    }
+    
       dispatch(
         getProductByFilter({
           brand,
@@ -100,8 +100,7 @@ const ProductFilter = () => {
           maxPrice,
         })
       );
-    }
-  }, [brand, category, minPrice, maxPrice, router]);
+  }, [brand, category, minPrice, maxPrice]);
   if (currentProducts) {
     return (
       <div className="mt-8">

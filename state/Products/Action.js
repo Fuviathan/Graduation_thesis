@@ -28,6 +28,35 @@ import {
 } from "./ActionType";
 import { API_BASE_URL, api } from "@/config/apiConfig";
 
+export const getProductByCategory = (category) => async (dispatch) => {
+
+  try {
+    const { data } = await axios.get(
+      `${API_BASE_URL}admin/product/get-all?categoryName=${category}&size=${10}`
+    );
+    console.log(data);
+    return data
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+export const getProductByBrand = (brand) => async (dispatch) => {
+
+  try {
+    const { data } = await axios.get(
+      `${API_BASE_URL}admin/product/get-all?${brand!==null ? `brandName=${brand}`:" "}&size=${100}`
+    );
+    console.log(data);
+    return data
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+  
+
 export const getProducts = () => async (dispatch) => {
   dispatch({ type: GET_PRODUCTS_REQUEST });
 

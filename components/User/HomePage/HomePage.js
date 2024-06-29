@@ -13,7 +13,7 @@ export default function HomePage() {
       <Features />
       <CategoryHomePage />
       <ItemIntroduce />
-      {/* <PopularProduct /> */}
+      <PopularProduct />
       <MarqueeLogo />
     </div>
   )
