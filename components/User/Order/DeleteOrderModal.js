@@ -18,6 +18,7 @@ const DeleteOrderModal = (props) => {
             className="p-2 px-6 bg-white border-2 text-dark-purple hover:bg-dark-purple hover:text-white border-dark-purple rounded-2xl"
             onClick={() => {
               handleDelete();
+              props.onClose();
             }}
           >
             Xác nhận
