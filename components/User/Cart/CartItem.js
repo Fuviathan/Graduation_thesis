@@ -10,6 +10,7 @@ import { IconButton } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { formatCurrency } from "../../util/util";
 
 const CartItem = ({ data }) => {
   const dispatch = useDispatch();
@@ -43,12 +44,11 @@ const CartItem = ({ data }) => {
           {data?.productSkus?.skuValues.map((item, index) => (<div className="flex gap-2 text-xl font-semibold" key={index}> <div>{item?.key?.option.name}</div>:<div>{item?.optionValues?.value}</div></div>))}
           <div className="flex flex-row gap-5 pt-2 mt-2 mb-3 text-xl font-semibold text-black">
             <div>
-              {data?.productSkus?.price -
-                (data?.productSkus?.price / 100) * product?.discountPercent}
-              $
+              {formatCurrency(data?.productSkus?.price -
+                (data?.productSkus?.price / 100) * product?.discountPercent)}
             </div>
             <div className="text-gray-500 line-through">
-              {data?.productSkus?.price}$
+              {formatCurrency(data?.productSkus?.price)}
             </div>
             <div className="text-green-500"> {product?.discountPercent}%</div>
           </div>

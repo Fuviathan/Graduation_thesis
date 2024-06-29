@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { logout } from "@/state/Auth/Action";
+import { formatCurrency } from "../../../util/util";
 
 function covertDataToUnsigned(string) {
   return string
@@ -148,7 +149,9 @@ export default function FirstRow(props) {
 
             {auth && (
               <div className="font-medium text-md text-orange-gray">
-                {cart ? `${cart?.totalDiscountedPrice}$` : ""}{" "}
+                {cart ? `${formatCurrency
+                  (cart?.totalDiscountedPrice)
+                }` : ""}{" "}
               </div>
             )}
           </Link>

@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { API_BASE_URL } from "@/config/apiConfig";
 import { createOrderCash, createOrderCod } from "@/state/Order/Action";
+import { formatCurrency } from "../../util/util";
 
 const PriceSummary = (props) => {
   const [coupon, setCoupon] = useState();
@@ -66,14 +67,13 @@ const PriceSummary = (props) => {
         <div className="px-4 text-xl font-medium text-black">
           <div className="flex justify-between pt-3">
             <div>Tổng tiền thanh toán</div>
-            <div>{props?.cart?.totalPrice?.toFixed(2)}$</div>
+            <div>{formatCurrency(props?.cart?.totalPrice?.toFixed(2))}</div>
           </div>
           <div className="flex justify-between pt-3">
             <div>Giảm giá</div>
             <div className="text-green-600">
-              {props.cart.totalPrice?.toFixed(2) -
-                props.cart?.totalDiscountedPrice?.toFixed(2)}
-              $
+              {formatCurrency(props.cart.totalPrice?.toFixed(2) -
+                props.cart?.totalDiscountedPrice?.toFixed(2))}
             </div>
           </div>
           <div className="flex justify-between pt-3 mb-4">
@@ -106,15 +106,14 @@ const PriceSummary = (props) => {
           <div className="flex justify-between pt-3 mb-3">
             <div>Tổng số tiền</div>
             <div className="text-green-600">
-              {props.cart?.totalDiscountedPrice?.toFixed(2) <
+              {formatCurrency(props.cart?.totalDiscountedPrice?.toFixed(2) <
               coupon?.discountValue
                 ? 0
                 : coupon?.discountValue
                 ? props.cart?.totalDiscountedPrice?.toFixed(2) -
                   coupon?.discountValue
-                : props.cart?.totalDiscountedPrice?.toFixed(2)}
-              $
-            </div>
+                : props.cart?.totalDiscountedPrice?.toFixed(2))}
+              </div>
           </div>
         </div>
         <hr></hr>
