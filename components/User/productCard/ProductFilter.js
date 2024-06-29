@@ -149,13 +149,13 @@ const ProductFilter = () => {
                   Giá cả:
                 </div>
                 <div className="flex items-center">
-                  <span className="pr-2 text-xl font-semibold">$</span>
+                  <span className="pr-2 text-xl font-semibold">₫</span>
                   <CustomTextField
                     onChange={(e) => setMinPrice(e.target.value)}
                     label={"Từ"}
                     id="margin-none"
                   />
-                  <span className="px-2 ml-8 text-xl font-semibold">$</span>
+                  <span className="px-2 ml-8 text-xl font-semibold">₫</span>
                   <CustomTextField
                     onChange={(e) => setMaxPrice(e.target.value)}
                     label={"Đến"}
