@@ -12,20 +12,25 @@ const CategoryWrapper = () => {
   console.log(data);
   // const number = useSelector((state) => state.product?.categoryProductTotal);
   return (
-    <div className="flex flex-wrap justify-between mb-16 shadow-md">
-      {data?.map((item, index) => { 
-        return (
-          <CategoryCard
-            key={item && item["_id"]}
-            src={
-              typeof item?.image === 'string' ? item?.imageUrl : item?.imageUrl
-            }
-            title={item?.name}
-            quantity={item?.totalProducts}
-            alt={item?.title}
-          />
-        );
-      })}
+    <div>
+      <div className="text-2xl text-gray-500 font-medium">Danh mục sản phẩm</div>
+      <div className="flex flex-wrap justify-between mb-16 shadow-md">
+        {data?.map((item, index) => {
+          return (
+            <CategoryCard
+              key={item && item["_id"]}
+              src={
+                typeof item?.image === "string"
+                  ? item?.imageUrl
+                  : item?.imageUrl
+              }
+              title={item?.name}
+              quantity={item?.totalProducts}
+              alt={item?.title}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };
