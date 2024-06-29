@@ -60,6 +60,12 @@ const ProductFilter = () => {
   useEffect(() => {
     if (!router.query.category) {
       dispatch(getProducts());
+    } else {
+      dispatch(getProductByFilter({ category: router.query.category }));
+      setCategory(router.query.category);
+      const query = new URLSearchParams(router.query);
+      query.delete('category');
+      router.replace(`/product?${query.toString()}`);
     }
     dispatch(getAllBrand());
     // dispatch(getProductByColor());

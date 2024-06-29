@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
 import CategoryCard from "./CategoryCard";
 import { useDispatch, useSelector } from "react-redux";
-import { getCategoryCount } from "@/state/Products/Action";
+import { getAllCategory } from "../../../../state/Products/Action";
 
 const CategoryWrapper = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getCategoryCount());
+    dispatch(getAllCategory());
   }, []);
-  const data = useSelector((state) => state?.product?.categoryCount);
+  const data = useSelector((state) => state?.product?.category?.content);
   console.log(data);
   // const number = useSelector((state) => state.product?.categoryProductTotal);
   return (
@@ -18,9 +18,9 @@ const CategoryWrapper = () => {
           <CategoryCard
             key={item && item["_id"]}
             src={
-              typeof item?.image === 'string' ? item?.image : item?.image.url
+              typeof item?.image === 'string' ? item?.imageUrl : item?.imageUrl
             }
-            title={item?.title}
+            title={item?.name}
             quantity={item?.totalProducts}
             alt={item?.title}
           />

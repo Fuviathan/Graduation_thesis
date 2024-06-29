@@ -12,10 +12,10 @@ const CategoryCard = (props) => {
     dispatch(getProductByFilter({ category: props.title }));
   };
   return (
-    <div className="flex w-1/5 p-4 px-4 border" onClick={handleClick}>
+    <div className="flex w-1/5 p-4 px-4 border rounded-2xl" onClick={handleClick}>
       <div className="flex flex-col w-4/6 my-auto">
         <h6 className="text-xl font-medium">{props?.title}</h6>
-        <div className="text-sm">{props?.quantity} sản phẩm</div>
+        {/* <div className="text-sm">{props?.quantity} sản phẩm</div> */}
       </div>
       <img className="w-28 h-28 object-fit" src={props.src} alt={props.alt} />
     </div>
