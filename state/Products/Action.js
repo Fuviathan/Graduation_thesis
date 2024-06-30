@@ -78,7 +78,7 @@ export const getProductByFilter = (req) => async (dispatch) => {
         req?.brand ? `brandName=${req?.brand}&` : ""
       }${req?.category ? `categoryName=${req?.category}&` : ""}${
         req?.minPrice ? `minPrice=${req?.minPrice}&` : ""
-      }${req?.maxPrice ? `maxPrice=${req?.maxPrice}&` : ""}${`size=${100}`}`
+      }${req?.maxPrice ? `maxPrice=${req?.maxPrice}&` : ""}${req?.sort ? `sort=${req?.sort}&` : ""}${`size=${100}`}`
     );
     dispatch({ type: GET_PRODUCTS_BY_FILTER_SUCCESS, payload: data });
   } catch (error) {

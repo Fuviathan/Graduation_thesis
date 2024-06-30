@@ -11,7 +11,7 @@ const ProductCard = ({ grid, item }) => {
     <div
       onClick={(e) => {
         e.preventDefault();
-        router.push(`product/${item.id}`);
+        router.push(`/product/${item.id}`);
       }}
     >
       <div

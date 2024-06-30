@@ -31,7 +31,7 @@ import { CustomTextField } from "../../Auth/CustomTextField";
 const ProductFilter = () => {
   const router = useRouter();
 
-  const [sort, setSort] = useState("title");
+  const [sort, setSort] = useState("price_low");
   const [tag, setTag] = useState(null);
   const [category, setCategory] = useState(null);
   const [color, setColor] = useState(null);
@@ -39,6 +39,7 @@ const ProductFilter = () => {
   const [minPrice, setMinPrice] = useState(null);
   const [maxPrice, setMaxPrice] = useState(null);
   const [grid, setGrid] = useState(12);
+  const [initialFetchComplete, setInitialFetchComplete] = useState(false);
 
   //============SET LAYOUT
   function handleChangeLayout(e) {
@@ -53,15 +54,14 @@ const ProductFilter = () => {
 
   const dispatch = useDispatch();
   const products = useSelector((store) => store?.product?.products?.content);
-
-  // const colors = useSelector((store) => store?.product?.color);
   const brands = useSelector((store) => store?.product?.brand?.content);
   const categories = useSelector((store) => store?.product?.category?.content);
+
   useEffect(() => {
-    
     dispatch(getAllBrand());
     dispatch(getAllCategory());
-  }, []);
+    setInitialFetchComplete(true);
+  }, [dispatch]);
 
   // ================SET PERPAGE
   const [currentPage, setCurrentPage] = useState(1);
@@ -79,28 +79,30 @@ const ProductFilter = () => {
     setCurrentPage(value);
   };
 
-  // =============== GET DATA FOR CATEGORY===========
-  // ================ GET DATA FILTER ============
+  // =============== GET DATA FILTER ============
   useEffect(() => {
-    if (!router.query.category) {
-      // dispatch(getProducts());
-    } else {
-      // dispatch(getProductByFilter({ category: router.query.category }));
-      setCategory(router.query.category);
-      const query = new URLSearchParams(router.query);
-      query.delete('category');
-      router.replace(`/product?${query.toString()}`);   
-    }
-    
+    if (initialFetchComplete) {
       dispatch(
         getProductByFilter({
           brand,
           category,
           minPrice,
           maxPrice,
+          sort
         })
       );
-  }, [brand, category, minPrice, maxPrice]);
+    }
+  }, [brand, category, minPrice, maxPrice, sort,initialFetchComplete, dispatch]);
+
+  useEffect(() => {
+    if (router.query.category) {
+      setCategory(router.query.category);
+      const query = new URLSearchParams(router.query);
+      query.delete('category');
+      router.replace(`/product?${query.toString()}`);
+    }
+  }, [router.query.category, router]);
+
   if (currentProducts) {
     return (
       <div className="mt-8">
@@ -187,10 +189,7 @@ const ProductFilter = () => {
                                 : ""
                               }`}
                             onClick={() =>
-                              {setBrand(brand === item.name ? "" : item.name);
-                              console.log(brand);
-                              console.log(item.name)
-                            }
+                              setBrand(brand === item.name ? "" : item.name)
                             }
                           >
                             {item.name}
@@ -207,22 +206,19 @@ const ProductFilter = () => {
           <div className="col-span-3">
             <div className="col-span-3 mb-4">
               <div className="flex items-center ">
-                {/* <p className="mr-2 text-base font-semibold">Sắp xếp:</p>
+                <p className="mr-2 text-base font-semibold">Sắp xếp:</p>
                 <div>
                   <select
                     className="px-4 py-1 text-lg font-medium border-2 rounded-xl"
                     onChange={(e) => {
                       setSort(e.target.value);
+                      console.log(e.target.value);
                     }}
                   >
-                    <option value="title">Từ A-Z</option>
-                    <option value="-title">Từ Z-A</option>
-                    <option value="price">Giá cả, thấp đến cao</option>
-                    <option value="-price">Giá cả, cao xuống thấp</option>
-                    <option value="createdAt">Ngày, cũ đến mới</option>
-                    <option value="-createdAt">Ngày, mới đến cũ</option>
+                    <option value="price_low">Giá cả, thấp đến cao</option>
+                    <option value="price_high">Giá cả, cao xuống thấp</option>
                   </select>
-                </div> */}
+                </div>
 
                 <div className="ml-auto">
                   <IconButton
@@ -283,8 +279,8 @@ const ProductFilter = () => {
           </div>
         </div>
       </div>
-    )
-  } else return <></>
+    );
+  } else return <></>;
 };
 
 export default ProductFilter;
