@@ -64,7 +64,7 @@ export const login = (userData) => async (dispatch) => {
   } catch (error) {
     dispatch({ type: LOGIN_FAILURE, payload: error });
     console.log(error)
-    toast.error("Sai tài khoản hoặc mặt khẩu");
+    toast.error(error?.response.data);
   }
 };
 
