@@ -165,6 +165,6 @@ export const changePassword = (req) => async (dispatch) => {
   } catch (error) {
     dispatch({ type: CHANGE_PASSWORD_FAILURE, payload: error });
     console.log(error.response)
-    toast.error(error?.response?.data.message);
+    toast.error(error?.response?.data);
   }
 }

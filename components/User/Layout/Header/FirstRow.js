@@ -130,7 +130,7 @@ export default function FirstRow(props) {
 
               <div>
                 <div className="ml-2 text-sm font-medium uppercase text-orange-gray ">
-                  {auth?.lastName} {auth?.firstName}
+                  {auth?.userName} 
                 </div>
                 <Link
                   href='/userAddress'
