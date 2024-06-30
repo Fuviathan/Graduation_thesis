@@ -29,14 +29,12 @@ const OrderDetails = ({ orderId }) => {
         return 2;
       case "CONFIRMED":
         return 3;
-      case "DELIVERY":
-        return 4;
       case "SHIPPED":
+        return 4;
+      case "DELIVERED":
         return 5;
       case "CANCELLED":
         return 6;
-      case "RETURNED":
-        return 7;
       default:
         return 1;
     }
@@ -65,7 +63,7 @@ const OrderDetails = ({ orderId }) => {
             <Grid item xs={6}>
               <div className="flex items-center space-x-4">
                 <img
-                  className="w-[15rem] h-[10rem] object-fir mr-8 object-top"
+                  className="min-w-[15rem] max-w-[15rem] h-[10rem] object-fir mr-8 object-top"
                   src={item?.images[0]?.imageUrl}
                   alt=""
                 />
@@ -83,24 +81,32 @@ const OrderDetails = ({ orderId }) => {
                     <span className="">Số lượng: {item.quantity}</span>
                   </div>
                   <p className="space-x-5">
-                    <span className="text-lg font-semibold text-green-500">
-                      {item.discountedPrice}đ
-                    </span>
-                    <span className="text-lg font-semibold line-through text-black-500">
-                      {item.price}đ
-                    </span>
+                    <If isTrue={item.discountedPrice !== item.price}>
+
+                      <span className="text-lg font-semibold text-green-500">
+                        {item.discountedPrice}đ
+                      </span>
+                      <span className="text-lg font-semibold line-through text-black-500">
+                        {item.price}đ
+                      </span>
+                    </If>
+                    <If isTrue={item.discountedPrice === item.price}>
+                      <span className="text-lg font-semibold text-green-500">
+                        {item.discountedPrice}đ
+                      </span>
+                    </If>
                   </p>
                 </div>
               </div>
             </Grid>
-            <If isTrue={order.orderStatus === 'SHIPPED'}>
+            <If isTrue={order.orderStatus === 'DELIVERED'}>
               <Grid item className="group">
                 <Box sx={{ color: deepPurple[500] }}>
                   <StarBorder
                     className="px-2 text-5xl group-hover:opacity-80"
                     sx={{ fontSize: "2rem" }}
                   ></StarBorder>
-                  <button onClick={() => {setOpenReview(true);setProdId(item.productId)}} className="group-hover:opacity-80">Đánh giá sản phẩm</button>
+                  <button onClick={() => { setOpenReview(true); setProdId(item.productId) }} className="group-hover:opacity-80">Đánh giá sản phẩm</button>
                 </Box>
               </Grid>
             </If>
@@ -116,7 +122,7 @@ const OrderDetails = ({ orderId }) => {
         ))}
       </Grid>
       <BasicModal open={openDelete} onClose={() => setOpenDelete(false)}>
-        <DeleteOrderModal open={openDelete} onClose={() => setOpenDelete(false)} id={orderId}/>
+        <DeleteOrderModal open={openDelete} onClose={() => setOpenDelete(false)} id={orderId} />
       </BasicModal>
       <BasicModal open={openReview} onClose={() => setOpenReview(false)}>
         <CreateReviewModal open={openReview} onClose={() => setOpenReview(false)} id={prodId} />
