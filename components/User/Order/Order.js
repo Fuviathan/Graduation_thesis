@@ -8,10 +8,9 @@ const orderStatus = [
   { label: "Chờ xử lý", value: "PENDING" },
   { label: "Đã đăt hàng", value: "PLACED" },
   { label: "Đã xác nhận", value: "CONFIRMED" },
-  { label: "Đang vận chuyển", value: "DELIVERY" },
-  { label: "Đã giao hàng", value: "SHIPPED" },
+  { label: "Đang vận chuyển", value: "SHIPPED" },
+  { label: "Đã giao hàng", value: "DELIVERED" },
   { label: "Hủy", value: "CANCELLED" },
-  { label: "Trả hàng", value: "RETURNED" },
 ];
 
 const Order = () => {
@@ -37,7 +36,7 @@ const Order = () => {
       <Grid container sx={{ justifyContent: "space-between" }}>
         <Grid item xs={2.5}>
           <div className="sticky h-auto p-5 bg-white border-2 border-gray-300 rounded-lg shadow-lg top-5">
-            <h1 className="text-lg font-bold">Filters</h1>
+            <h1 className="text-lg font-bold">Lọc</h1>
 
             <div className="mt-10 space-y-4">
               <h1 className="font-semibold">Trạng thái đơn hàng</h1>

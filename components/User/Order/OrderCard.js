@@ -7,7 +7,18 @@ import { If } from "react-haiku";
 import { deepPurple } from "@mui/material/colors";
 import { Star, StarBorder, Start } from "@mui/icons-material";
 
+const orderStatusMapping = {
+  "PENDING": "Đang tạo đơn hàng",
+  "PLACED": "Đã đặt hàng",
+  "CONFIRMED": "Đã xác nhận",
+  "SHIPPED": "Đang giao hàng",
+  "DELIVERED": "Đã nhận hàng",
+  "CANCELLED": "Đã huỷ",
+  "COMPLETED": "Đã hoàn thành"
+};
+
 const OrderCard = (props) => {
+
   const router = useRouter();
   const param = useParams();
   return (
@@ -46,7 +57,7 @@ const OrderCard = (props) => {
                 className="mr-1 color-green-700"
                 sx={{ width: "16px", height: "16px" }}
               ></Adjust>
-              <span>{props.data.orderStatus} </span>
+              <span>{orderStatusMapping[props.data.orderStatus]} </span>
             </p>
           )}
           {/* <p>Your Item Has Been Delivered</p> */}
